@@ -1,0 +1,38 @@
+package com.pmf.juliasetvisualizer.models;
+
+
+import com.pmf.juliasetvisualizer.ui.ControlPanel;
+
+import javafx.scene.Node;
+import javafx.scene.control.Button;
+
+import static com.pmf.juliasetvisualizer.ui.ControlPanel.realTextField;
+
+public class CalculateSetButton extends Button {
+// Konstruktori
+    public CalculateSetButton() {
+        super();
+        setAction();
+    }
+
+    public CalculateSetButton(String text) {
+        super(text);
+        setAction();
+    }
+
+    public CalculateSetButton(String text, Node graphic) {
+        super(text, graphic);
+        setAction();
+    }
+
+// Funkcija koja definira što će se dogoditi kad je gumb kliknut
+    private void setAction() {
+        this.setOnAction(e -> {
+            try {
+                double real = Double.parseDouble(realTextField.getText());
+            } catch (NumberFormatException ex) {
+                realTextField.setStyle("-fx-border-color: red");
+            }
+        });
+    }
+}
