@@ -29,7 +29,7 @@ public class ControlPanel extends VBox {
     private void initializeComponents() {
     // Label za slider
         Label maxIterationsLabel = new Label("Maksimalan broj iteracija:");
-        maxIterationsLabel.setStyle("-fx-font-weight: bold;");
+        maxIterationsLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 16px;");
     // Slider
         maxIterationsSlider = new Slider(500, 10000, 1000);
         //maxIterationsSlider.setPadding(new Insets(50,50,50,50));
@@ -38,12 +38,13 @@ public class ControlPanel extends VBox {
         maxIterationsText.textProperty().bind(
                 maxIterationsSlider.valueProperty().asString("N = %.0f") //ovo sluzi da broj u tekstu prati slider
         );
+        maxIterationsText.setStyle("-fx-font-size: 18px;");
 
         VBox maxIterations = new VBox(maxIterationsLabel, maxIterationsSlider, maxIterationsText);
 
     // Label za upis konstante
         Label constantLabel = new Label("Konstanta:");
-        constantLabel.setStyle("-fx-font-weight: bold;");
+        constantLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 16px;");
 
     // Text boxovi za unos konstante c
         realTextField = new TextField("1.2");
@@ -53,7 +54,9 @@ public class ControlPanel extends VBox {
         calculateSetButton = new CalculateSetButton("Calculate Julia set!");
 
     // Tekst koji ispisuje definiciju skupa
-        setDefinitionText = new Text("Zn+1 = Zn^2 + " + realTextField.getText() + " + " + imaginaryTextField.getText() + "i");
+        setDefinitionText = new Text("Z\u2099\u208A\u2081 = Z\u2099² + " + realTextField.getText() + " + " + imaginaryTextField.getText() + "i");
+        setDefinitionText.setStyle("-fx-font-size: 18px;");
+
         // listeneri za upis teksta u text box, pozivaju funkciju dole
         realTextField.textProperty().addListener(observable -> updateSetDefinitionText());
         imaginaryTextField.textProperty().addListener(observable -> updateSetDefinitionText());
@@ -72,7 +75,11 @@ public class ControlPanel extends VBox {
         // Provjerava je li input u tekst boxovima dobar
         if(CalculateSetController.isValidInput()) {
             // ako je updatea tekst
-            setDefinitionText.setText("Zn+1 = Zn^2 + " + realTextField.getText() + " + " + imaginaryTextField.getText() + "i");
+
+            String signReal = (Double.parseDouble(realTextField.getText()) > 0) ? "+" : "";
+            String signImaginary = (Double.parseDouble(imaginaryTextField.getText()) > 0) ? "+" : "";
+
+            setDefinitionText.setText("Z\u2099\u208A\u2081 = Z\u2099² " + signReal + realTextField.getText() + signImaginary + imaginaryTextField.getText() + "i");
         }
     }
 }
