@@ -1,5 +1,6 @@
 package com.pmf.juliasetvisualizer.ui;
 
+import com.pmf.juliasetvisualizer.controllers.CalculateSetController;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
@@ -14,6 +15,8 @@ public class ControlPanel extends VBox {
     public static Slider maxIterationsSlider;
     public static TextField realTextField;
     public static TextField imaginaryTextField;
+    public static Text setDefinitionText;
+    public static CalculateSetButton calculateSetButton;
 
     public ControlPanel() {
         super(10);
@@ -47,12 +50,13 @@ public class ControlPanel extends VBox {
         imaginaryTextField = new TextField("1.2");
 
     // Button
-        CalculateSetButton calculateSetButton = new CalculateSetButton("Calculate Julia set!");
+        calculateSetButton = new CalculateSetButton("Calculate Julia set!");
 
-        Text setDefinitionText = new Text();
-        realTextField.addEventHandler(e -> {
-            setDefinitionText.setText("blabla");
-        });
+    // Tekst koji ispisuje definiciju skupa
+        setDefinitionText = new Text("Zn+1 = Zn^2 + " + realTextField.getText() + " + " + imaginaryTextField.getText() + "i");
+        // listeneri za upis teksta u text box, pozivaju funkciju dole
+        realTextField.textProperty().addListener(observable -> updateSetDefinitionText());
+        imaginaryTextField.textProperty().addListener(observable -> updateSetDefinitionText());
 
         VBox constantTextField = new VBox(constantLabel, realTextField, imaginaryTextField, setDefinitionText);
 
@@ -60,8 +64,15 @@ public class ControlPanel extends VBox {
             maxIterations,
             new Separator(),
             constantTextField,
-            setDefinitionText,
             calculateSetButton
         );
+    }
+
+    private void updateSetDefinitionText() {
+        // Provjerava je li input u tekst boxovima dobar
+        if(CalculateSetController.isValidInput()) {
+            // ako je updatea tekst
+            setDefinitionText.setText("Zn+1 = Zn^2 + " + realTextField.getText() + " + " + imaginaryTextField.getText() + "i");
+        }
     }
 }

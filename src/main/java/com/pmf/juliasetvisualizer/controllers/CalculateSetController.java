@@ -17,7 +17,7 @@ public class CalculateSetController implements EventHandler<ActionEvent> {
             new JuliaSetCalculator();
         }
     }
-    private boolean isValidInput() {
+    public static boolean isValidInput() {
         boolean valid = true;
 
         try {
