@@ -1,11 +1,10 @@
-package com.pmf.juliasetvisualizer.models;
+package com.pmf.juliasetvisualizer.ui;
 
-
-import com.pmf.juliasetvisualizer.ui.ControlPanel;
-
+import com.pmf.juliasetvisualizer.controllers.CalculateSetController;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 
+import static com.pmf.juliasetvisualizer.ui.ControlPanel.imaginaryTextField;
 import static com.pmf.juliasetvisualizer.ui.ControlPanel.realTextField;
 
 public class CalculateSetButton extends Button {
@@ -27,12 +26,9 @@ public class CalculateSetButton extends Button {
 
 // Funkcija koja definira što će se dogoditi kad je gumb kliknut
     private void setAction() {
-        this.setOnAction(e -> {
-            try {
-                double real = Double.parseDouble(realTextField.getText());
-            } catch (NumberFormatException ex) {
-                realTextField.setStyle("-fx-border-color: red");
-            }
-        });
+        this.setOnAction(new CalculateSetController());
+    }
+
+    private void setStyle() {
     }
 }

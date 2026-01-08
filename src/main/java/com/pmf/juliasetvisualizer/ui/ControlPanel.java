@@ -1,6 +1,6 @@
 package com.pmf.juliasetvisualizer.ui;
 
-import com.pmf.juliasetvisualizer.models.CalculateSetButton;
+import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
@@ -36,19 +36,32 @@ public class ControlPanel extends VBox {
                 maxIterationsSlider.valueProperty().asString("N = %.0f") //ovo sluzi da broj u tekstu prati slider
         );
 
-        VBox maxIterations = new VBox(maxIterationsSlider, maxIterationsText);
+        VBox maxIterations = new VBox(maxIterationsLabel, maxIterationsSlider, maxIterationsText);
+
+    // Label za upis konstante
+        Label constantLabel = new Label("Konstanta:");
+        constantLabel.setStyle("-fx-font-weight: bold;");
 
     // Text boxovi za unos konstante c
         realTextField = new TextField("1.2");
         imaginaryTextField = new TextField("1.2");
 
-        VBox constantTextField = new VBox(realTextField, imaginaryTextField);
+    // Button
+        CalculateSetButton calculateSetButton = new CalculateSetButton("Calculate Julia set!");
+
+        Text setDefinitionText = new Text();
+        realTextField.addEventHandler(e -> {
+            setDefinitionText.setText("blabla");
+        });
+
+        VBox constantTextField = new VBox(constantLabel, realTextField, imaginaryTextField, setDefinitionText);
 
         getChildren().addAll(
             maxIterations,
             new Separator(),
             constantTextField,
-            new CalculateSetButton()
+            setDefinitionText,
+            calculateSetButton
         );
     }
 }
