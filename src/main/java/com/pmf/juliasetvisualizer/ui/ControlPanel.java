@@ -12,10 +12,10 @@ import javafx.scene.text.Text;
 
 public class ControlPanel extends VBox {
 
-    public static Slider maxIterationsSlider;
+    private static Slider maxIterationsSlider;
     public static TextField realTextField;
     public static TextField imaginaryTextField;
-    public static Text setDefinitionText;
+    private static Text setDefinitionText;
     public static CalculateSetButton calculateSetButton;
 
     public ControlPanel() {

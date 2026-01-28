@@ -11,10 +11,20 @@ import static com.pmf.juliasetvisualizer.ui.ControlPanel.imaginaryTextField;
 import static com.pmf.juliasetvisualizer.ui.ControlPanel.realTextField;
 
 public class CalculateSetController implements EventHandler<ActionEvent> {
+    private double real;
+    private double imaginary;
+
+    public CalculateSetController() {
+        this.real = Double.parseDouble(ControlPanel.realTextField.getText());
+        this.imaginary = Double.parseDouble(imaginaryTextField.getText());
+    }
     @Override
     public void handle(ActionEvent actionEvent) {
         if(isValidInput()) {
-            new JuliaSetCalculator();
+            Thread thread1 = new Thread(new JuliaSetCalculator(1, real, imaginary));
+            Thread thread2 = new Thread(new JuliaSetCalculator(2, real, imaginary));
+            Thread thread3 = new Thread(new JuliaSetCalculator(3, real, imaginary));
+            Thread thread4 = new Thread(new JuliaSetCalculator(4, real, imaginary));
         }
     }
     public static boolean isValidInput() {

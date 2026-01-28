@@ -17,10 +17,10 @@ public class MainWindow extends Application {
         BorderPane borderPane = new BorderPane();
 
         ControlPanel controlPanel = new ControlPanel();
-        borderPane.setRight(controlPanel);
+        borderPane.setLeft(controlPanel);
 
         JuliaSetCanvas juliaSetCanvas = new JuliaSetCanvas(500, 500);
-        borderPane.setLeft(juliaSetCanvas);
+        borderPane.setRight(juliaSetCanvas);
 
         Scene scene = new Scene(borderPane, 500, 500);
         stage.setTitle("Hello!");
