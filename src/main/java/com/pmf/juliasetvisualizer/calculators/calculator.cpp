@@ -12,30 +12,22 @@ struct kompleks
             this->imaginarni = imaginarni;
         }
         
-        kompleks zbroji(kompleks a, kompleks b){
+        kompleks zbroji(const kompleks &b) const {
             kompleks rez;
-            rez.realni = a.realni + b.realni;
-            rez.imaginarni = a.imaginarni + b.imaginarni;
+            rez.realni = realni + b.realni;
+            rez.imaginarni = imaginarni + b.imaginarni;
             return rez;
         }
         
-        kompleks pomnozi(kompleks a, kompleks b){
+        kompleks pomnozi(const kompleks &b) const {
             kompleks rez;
-            rez.realni = (a.realni * b.realni) - (a.imaginarni * b.imaginarni);
-            rez.imaginarni = (a.realni*b.imaginarni) + (b.realni * a.imaginarni);
+            rez.realni = (realni * b.realni) - (imaginarni * b.imaginarni);
+            rez.imaginarni = (realni*b.imaginarni) + (b.realni * imaginarni);
             return rez;        
         }
-        kompleks neg (kompleks a)
-        {
-            return kompleks (-a.realni, -a.imaginarni);
-        }
 
-        kompleks oduzmi ( kompleks a, kompleks b){
-            return zbroji(a, neg(b));        
-        }
-
-        kompleks absolute(kompleks a){
-            return a.realni * a.realni + a.imaginarni * a.imaginarni;        
+        jdouble absolute() const{
+            return realni * realni + imaginarni * imaginarni;        
         }
         
     };
@@ -45,16 +37,17 @@ JNIEXPORT jint JNICALL Java_com_pmf_juliasetvisualizer_calculators_JuliaSetCalcu
   (JNIEnv *, jobject, jint quadrant, jdouble real, jdouble imaginary)
 {
     
-    kompleks c = (real, imaginary);
+    kompleks c(real, imaginary);
 
     jint iteracije = 100;
     jint max_br_iteracija;
-    kompleks prijasnji, trenutni;
-    jdouble magnituda = absolute(trenutni);
-    for(max_br_iteracija = 0; i<iteracije && magnituda<4 ; i++)
+    kompleks prijasnji(0,0), trenutni(0,0);
+    jdouble magnituda = trenutni.absolute();
+    for(max_br_iteracija = 0; max_br_iteracija<iteracije && magnituda < 4 ; max_br_iteracija++)
     {
-        trenutni = zbroji(pomnozi(prijasnji, prijasnji), c);
+        trenutni = prijasnji.pomnozi(prijasnji).zbroji(c);
         prijasnji = trenutni;
+        magnituda = trenutni.absolute();
     }
 
     return max_br_iteracija;
