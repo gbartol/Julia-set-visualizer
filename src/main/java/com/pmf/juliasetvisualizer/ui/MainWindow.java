@@ -1,4 +1,4 @@
-package com.pmf.juliasetvisualizer.ui;
+package com.pmf.juliasetvisualizer.ui.ui;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -16,11 +16,13 @@ public class MainWindow extends Application {
     public void start(Stage stage) throws IOException {
         BorderPane borderPane = new BorderPane();
 
-        ControlPanel controlPanel = new ControlPanel();
-        borderPane.setLeft(controlPanel);
-
         JuliaSetCanvas juliaSetCanvas = new JuliaSetCanvas(500, 500);
         borderPane.setRight(juliaSetCanvas);
+
+        ControlPanel controlPanel = new ControlPanel(juliaSetCanvas);
+        borderPane.setLeft(controlPanel);
+
+
 
         Scene scene = new Scene(borderPane, 500, 500);
         stage.setTitle("Hello!");

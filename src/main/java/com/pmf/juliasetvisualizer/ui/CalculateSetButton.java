@@ -1,36 +1,53 @@
-package com.pmf.juliasetvisualizer.ui;
+package com.pmf.juliasetvisualizer.ui.ui;
 
-import com.pmf.juliasetvisualizer.controllers.CalculateSetController;
+import com.pmf.juliasetvisualizer.ui.controllers.CalculateSetController;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 
-import static com.pmf.juliasetvisualizer.ui.ControlPanel.imaginaryTextField;
-import static com.pmf.juliasetvisualizer.ui.ControlPanel.realTextField;
+import static com.pmf.juliasetvisualizer.ui.ui.ControlPanel.imaginaryTextField;
+import static com.pmf.juliasetvisualizer.ui.ui.ControlPanel.realTextField;
 
 public class CalculateSetButton extends Button {
+    public static JuliaSetCanvas Canvas;
 
 // Konstruktori
-    public CalculateSetButton() {
+    public CalculateSetButton(JuliaSetCanvas canvas) {
         super();
-        setAction();
+        Canvas=canvas;
+        setAction(Canvas);
         setStyle();
+
     }
 
-    public CalculateSetButton(String text) {
+    public CalculateSetButton(JuliaSetCanvas canvas,String text) {
         super(text);
-        setAction();
+        Canvas=canvas;
+        if(Canvas==null){
+            System.out.println("Canvas je null u Buttonu");
+        }
+        setAction(Canvas);
         setStyle();
+
+
     }
 
-    public CalculateSetButton(String text, Node graphic) {
+    public CalculateSetButton(JuliaSetCanvas canvas,String text, Node graphic) {
         super(text, graphic);
-        setAction();
+        Canvas=canvas;
+        if(Canvas==null){
+            System.out.println("Canvas je null u Buttonu");
+        }
+        setAction(Canvas);
         setStyle();
+
     }
 
 // Funkcija koja definira što će se dogoditi kad je gumb kliknut
-    private void setAction() {
-        this.setOnAction(new CalculateSetController());
+    private void setAction(JuliaSetCanvas Canvas) {
+        if(Canvas==null){
+            System.out.println("Canvas je null u ButtonuActionu");
+        }
+        this.setOnAction(new CalculateSetController(Canvas));
     }
 
     private void setStyle() {

@@ -1,6 +1,6 @@
-package com.pmf.juliasetvisualizer.ui;
+package com.pmf.juliasetvisualizer.ui.ui;
 
-import com.pmf.juliasetvisualizer.controllers.CalculateSetController;
+import com.pmf.juliasetvisualizer.ui.controllers.CalculateSetController;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
@@ -17,16 +17,22 @@ public class ControlPanel extends VBox {
     public static TextField imaginaryTextField;
     private static Text setDefinitionText;
     public static CalculateSetButton calculateSetButton;
+    public static JuliaSetCanvas Canvas;
 
-    public ControlPanel() {
+    public ControlPanel(JuliaSetCanvas canvas) {
         super(10);
         setPadding(new Insets(10));
         setMinWidth(250);
-
-        initializeComponents();
+        Canvas=canvas;
+        if(Canvas==null){
+            System.out.println("Canvas je null u ControllPanelu");
+        }
+        Canvas.kontrolniint=2;
+        System.out.println("kontrolniint je "+Canvas.kontrolniint);
+        initializeComponents(Canvas);
     }
 
-    private void initializeComponents() {
+    private void initializeComponents(JuliaSetCanvas canvas) {
     // Label za slider
         Label maxIterationsLabel = new Label("Maksimalan broj iteracija:");
         maxIterationsLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 16px;");
@@ -51,7 +57,7 @@ public class ControlPanel extends VBox {
         imaginaryTextField = new TextField("1.2");
 
     // Button
-        calculateSetButton = new CalculateSetButton("Calculate Julia set!");
+        calculateSetButton = new CalculateSetButton(canvas,"Calculate Julia set!");
 
     // Tekst koji ispisuje definiciju skupa
         setDefinitionText = new Text("Z\u2099\u208A\u2081 = Z\u2099² + " + realTextField.getText() + " + " + imaginaryTextField.getText() + "i");
@@ -67,7 +73,8 @@ public class ControlPanel extends VBox {
             maxIterations,
             new Separator(),
             constantTextField,
-            calculateSetButton
+            calculateSetButton,
+            canvas
         );
     }
 

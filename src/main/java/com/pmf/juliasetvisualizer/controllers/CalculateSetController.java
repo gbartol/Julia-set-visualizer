@@ -1,30 +1,44 @@
-package com.pmf.juliasetvisualizer.controllers;
+package com.pmf.juliasetvisualizer.ui.controllers;
 
-import com.pmf.juliasetvisualizer.calculators.JuliaSetCalculator;
-import com.pmf.juliasetvisualizer.ui.CalculateSetButton;
-import com.pmf.juliasetvisualizer.ui.ControlPanel;
+import com.pmf.juliasetvisualizer.ui.calculators.JuliaSetCalculator;
+import com.pmf.juliasetvisualizer.ui.ui.CalculateSetButton;
+import com.pmf.juliasetvisualizer.ui.ui.ControlPanel;
 
+import com.pmf.juliasetvisualizer.ui.ui.JuliaSetCanvas;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
-import static com.pmf.juliasetvisualizer.ui.ControlPanel.imaginaryTextField;
-import static com.pmf.juliasetvisualizer.ui.ControlPanel.realTextField;
+import static com.pmf.juliasetvisualizer.ui.ui.ControlPanel.imaginaryTextField;
+import static com.pmf.juliasetvisualizer.ui.ui.ControlPanel.realTextField;
 
 public class CalculateSetController implements EventHandler<ActionEvent> {
     private double real;
     private double imaginary;
+    public static JuliaSetCanvas Canvas;
 
-    public CalculateSetController() {
+    public CalculateSetController(JuliaSetCanvas canvas) {
         this.real = Double.parseDouble(ControlPanel.realTextField.getText());
         this.imaginary = Double.parseDouble(imaginaryTextField.getText());
+        System.out.println(this.real);
+        System.out.println(this.imaginary);
+        Canvas=canvas;
+        if(Canvas==null){
+            System.out.println("Canvas je null u Controlleru");
+        }
+        Canvas.kontrolniint=4;
+        System.out.println("kontrolniint je "+Canvas.kontrolniint);
     }
     @Override
     public void handle(ActionEvent actionEvent) {
         if(isValidInput()) {
-            Thread thread1 = new Thread(new JuliaSetCalculator(1, real, imaginary));
-            Thread thread2 = new Thread(new JuliaSetCalculator(2, real, imaginary));
-            Thread thread3 = new Thread(new JuliaSetCalculator(3, real, imaginary));
-            Thread thread4 = new Thread(new JuliaSetCalculator(4, real, imaginary));
+            long startTime=System.currentTimeMillis();
+            Thread thread1 = new Thread(new JuliaSetCalculator(Canvas,1, real, imaginary));
+            Thread thread2 = new Thread(new JuliaSetCalculator(Canvas,2, real, imaginary));
+            Thread thread3 = new Thread(new JuliaSetCalculator(Canvas,3, real, imaginary));
+            Thread thread4 = new Thread(new JuliaSetCalculator(Canvas,4, real, imaginary));
+            long endTime=System.currentTimeMillis();
+            long vrijeme=startTime-endTime;
+            System.out.println("Vrijeme je "+vrijeme);
         }
     }
     public static boolean isValidInput() {
