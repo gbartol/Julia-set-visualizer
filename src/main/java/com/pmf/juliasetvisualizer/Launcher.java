@@ -1,6 +1,6 @@
-package com.pmf.juliasetvisualizer.ui;
+package com.pmf.juliasetvisualizer;
 
-import com.pmf.juliasetvisualizer.ui.ui.MainWindow;
+import com.pmf.juliasetvisualizer.ui.MainWindow;
 import javafx.application.Application;
 
 public class Launcher {

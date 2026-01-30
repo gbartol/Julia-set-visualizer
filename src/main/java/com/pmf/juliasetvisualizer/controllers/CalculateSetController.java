@@ -1,15 +1,15 @@
-package com.pmf.juliasetvisualizer.ui.controllers;
+package com.pmf.juliasetvisualizer.controllers;
 
-import com.pmf.juliasetvisualizer.ui.calculators.JuliaSetCalculator;
-import com.pmf.juliasetvisualizer.ui.ui.CalculateSetButton;
-import com.pmf.juliasetvisualizer.ui.ui.ControlPanel;
+import com.pmf.juliasetvisualizer.calculators.JuliaSetCalculator;
+import com.pmf.juliasetvisualizer.ui.CalculateSetButton;
+import com.pmf.juliasetvisualizer.ui.ControlPanel;
 
-import com.pmf.juliasetvisualizer.ui.ui.JuliaSetCanvas;
+import com.pmf.juliasetvisualizer.ui.JuliaSetCanvas;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
-import static com.pmf.juliasetvisualizer.ui.ui.ControlPanel.imaginaryTextField;
-import static com.pmf.juliasetvisualizer.ui.ui.ControlPanel.realTextField;
+import static com.pmf.juliasetvisualizer.ui.ControlPanel.imaginaryTextField;
+import static com.pmf.juliasetvisualizer.ui.ControlPanel.realTextField;
 
 public class CalculateSetController implements EventHandler<ActionEvent> {
     private double real;

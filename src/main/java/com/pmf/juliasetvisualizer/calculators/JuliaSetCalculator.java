@@ -1,6 +1,6 @@
-package com.pmf.juliasetvisualizer.ui.calculators;
+package com.pmf.juliasetvisualizer.calculators;
 
-import com.pmf.juliasetvisualizer.ui.ui.JuliaSetCanvas;
+import com.pmf.juliasetvisualizer.ui.JuliaSetCanvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.paint.Color;

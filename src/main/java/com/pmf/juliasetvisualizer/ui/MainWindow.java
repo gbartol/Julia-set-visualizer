@@ -1,4 +1,4 @@
-package com.pmf.juliasetvisualizer.ui.ui;
+package com.pmf.juliasetvisualizer.ui;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;

@@ -1,4 +1,4 @@
-package com.pmf.juliasetvisualizer.ui.ui;
+package com.pmf.juliasetvisualizer.ui;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;

@@ -1,11 +1,11 @@
-package com.pmf.juliasetvisualizer.ui.ui;
+package com.pmf.juliasetvisualizer.ui;
 
-import com.pmf.juliasetvisualizer.ui.controllers.CalculateSetController;
+import com.pmf.juliasetvisualizer.controllers.CalculateSetController;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 
-import static com.pmf.juliasetvisualizer.ui.ui.ControlPanel.imaginaryTextField;
-import static com.pmf.juliasetvisualizer.ui.ui.ControlPanel.realTextField;
+import static com.pmf.juliasetvisualizer.ui.ControlPanel.imaginaryTextField;
+import static com.pmf.juliasetvisualizer.ui.ControlPanel.realTextField;
 
 public class CalculateSetButton extends Button {
     public static JuliaSetCanvas Canvas;

@@ -1,6 +1,6 @@
-package com.pmf.juliasetvisualizer.ui.ui;
+package com.pmf.juliasetvisualizer.ui;
 
-import com.pmf.juliasetvisualizer.ui.controllers.CalculateSetController;
+import com.pmf.juliasetvisualizer.controllers.CalculateSetController;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
