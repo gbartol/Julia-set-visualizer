@@ -34,9 +34,6 @@ public class JuliaSetCalculator implements Runnable {
         // I KAD DODAMO OPCIJU ZA MICANJE U CALCULATE MORA IC i/scale (ili inverz scalea???) + x-offset
         //ISTO ZA j/scale +y-offset
 
-        //znaci jebo me pas ovo bi trebalo radit, ali baca gresku UnsatisfiedLinkError
-        //i brat robot kaze "You told me to run a function that exists outside of Java, but I can't find the external file containing that function."
-        //ja nemam pojma sta treba dalje, probat cu kasnije
         int iteracije;
         GraphicsContext gc = Canvas.getGraphicsContext2D();
         PixelWriter pw = gc.getPixelWriter();
