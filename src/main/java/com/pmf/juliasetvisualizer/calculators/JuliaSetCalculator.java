@@ -24,7 +24,7 @@ public class JuliaSetCalculator implements Runnable {
         System.out.println("Pokrenuo novi JuliaSetCalculator");
         Canvas.kontrolniint=5;
         System.out.println("kontrolniint je "+Canvas.kontrolniint);
-        run();
+        run(); //Tu ne pozivas funkciju run nego se to radi u controlleru sa imeThreada.start()
     }
 
     @Override
