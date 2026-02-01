@@ -8,6 +8,7 @@ module com.pmf.juliasetvisualizer {
     exports com.pmf.juliasetvisualizer.ui;
     exports com.pmf.juliasetvisualizer.calculators;
     exports com.pmf.juliasetvisualizer.controllers;
+    exports com.pmf.juliasetvisualizer.models;
 
     opens com.pmf.juliasetvisualizer to javafx.graphics, javafx.fxml;
     opens com.pmf.juliasetvisualizer.ui to javafx.graphics, javafx.fxml;

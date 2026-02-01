@@ -1,7 +1,7 @@
 package com.pmf.juliasetvisualizer.calculators;
 
+import com.pmf.juliasetvisualizer.models.JuliaSetParameters;
 import com.pmf.juliasetvisualizer.ui.JuliaSetCanvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.paint.Color;
 
@@ -12,26 +12,32 @@ public class JuliaSetCalculator implements Runnable {
     private int maxIter;
     private double cReal;
     private double cImaginary;
-    public static JuliaSetCanvas Canvas;
+    public static JuliaSetCanvas canvas;
+    private JuliaSetParameters juliaSetParameters;
+    private int canvasWidth;
+    private int canvasHeight;
 
     static {
         System.loadLibrary("calculator");
     }
 
-    public JuliaSetCalculator(JuliaSetCanvas canvas,int quadrant, int[][] buffer, double cReal, double cImaginary, int maxIter) {
+    public JuliaSetCalculator(JuliaSetCanvas canvas,int quadrant, int[][] buffer, double cReal, double cImaginary, int maxIter, JuliaSetParameters juliaSetParameters) {
+        this.juliaSetParameters = juliaSetParameters;
 
         this.quadrant = quadrant;
         this.buffer = buffer;
         this.cReal = cReal;
         this.cImaginary = cImaginary;
         this.maxIter = maxIter;
-        Canvas=canvas;
-        if(Canvas==null){
-            System.out.println("Canvas je null u Calculatoru");
+        JuliaSetCalculator.canvas =canvas;
+        canvasWidth = (int) canvas.getWidth();
+        canvasHeight = (int) canvas.getHeight();
+        if(JuliaSetCalculator.canvas ==null){
+            System.out.println("canvas je null u Calculatoru");
         }
         System.out.println("Pokrenuo novi JuliaSetCalculator");
-        Canvas.kontrolniint=5;
-        System.out.println("kontrolniint je "+Canvas.kontrolniint);
+        JuliaSetCalculator.canvas.kontrolniint=5;
+        System.out.println("kontrolniint je "+ JuliaSetCalculator.canvas.kontrolniint);
         //run(); //Tu ne pozivas funkciju run nego se to radi u controlleru sa imeThreada.start()
     }
 
@@ -43,7 +49,7 @@ public class JuliaSetCalculator implements Runnable {
         //ISTO ZA j/scale +y-offset
 
         int iteracije;
-        /*GraphicsContext gc = Canvas.getGraphicsContext2D();
+        /*GraphicsContext gc = canvas.getGraphicsContext2D();
         PixelWriter pw = gc.getPixelWriter();
         
         Dretve ne crtaju po canvasu, vec pune buffer
@@ -83,8 +89,10 @@ public class JuliaSetCalculator implements Runnable {
         {
             for(int j = pocetakY; j<krajY; j++)
             {
-                double z0Real = mapToReal(i);
-                double z0Imaginary = mapToImaginary(j);
+                double z0Real = juliaSetParameters.mapPixelToReal(i, (int) canvas.getWidth());
+                double z0Imaginary = juliaSetParameters.mapPixelToImaginary(j, 500);
+                //double z0Real = juliaSetParameters.mapToReal(i);
+                //double z0Imaginary = juliaSetParameters.mapToImaginary(j);
                 
                 int iteracija = calculate(maxIter, cReal, cImaginary, z0Real, z0Imaginary);
                 buffer[i][j]  =iteracija;

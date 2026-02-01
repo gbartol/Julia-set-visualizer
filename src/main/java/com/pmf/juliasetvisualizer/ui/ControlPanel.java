@@ -1,6 +1,7 @@
 package com.pmf.juliasetvisualizer.ui;
 
 import com.pmf.juliasetvisualizer.controllers.CalculateSetController;
+import com.pmf.juliasetvisualizer.models.JuliaSetParameters;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
@@ -25,7 +26,7 @@ public class ControlPanel extends VBox {
         setMinWidth(250);
         Canvas=canvas;
         if(Canvas==null){
-            System.out.println("Canvas je null u ControllPanelu");
+            System.out.println("canvas je null u ControllPanelu");
         }
         Canvas.kontrolniint=2;
         System.out.println("kontrolniint je "+Canvas.kontrolniint);
@@ -54,7 +55,7 @@ public class ControlPanel extends VBox {
 
     // Text boxovi za unos konstante c
         realTextField = new TextField("-0.8");
-        imaginaryTextField = new TextField("0");
+        imaginaryTextField = new TextField("0.156");
 
     // Button
         calculateSetButton = new CalculateSetButton(canvas,"Calculate Julia set!");

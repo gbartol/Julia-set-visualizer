@@ -1,6 +1,7 @@
 package com.pmf.juliasetvisualizer.ui;
 
 import com.pmf.juliasetvisualizer.controllers.CalculateSetController;
+import com.pmf.juliasetvisualizer.models.JuliaSetParameters;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 
@@ -23,7 +24,7 @@ public class CalculateSetButton extends Button {
         super(text);
         Canvas=canvas;
         if(Canvas==null){
-            System.out.println("Canvas je null u Buttonu");
+            System.out.println("canvas je null u Buttonu");
         }
         setAction(Canvas);
         setStyle();
@@ -35,7 +36,7 @@ public class CalculateSetButton extends Button {
         super(text, graphic);
         Canvas=canvas;
         if(Canvas==null){
-            System.out.println("Canvas je null u Buttonu");
+            System.out.println("canvas je null u Buttonu");
         }
         setAction(Canvas);
         setStyle();
@@ -45,9 +46,13 @@ public class CalculateSetButton extends Button {
 // Funkcija koja definira što će se dogoditi kad je gumb kliknut
     private void setAction(JuliaSetCanvas Canvas) {
         if(Canvas==null){
-            System.out.println("Canvas je null u ButtonuActionu");
+            System.out.println("canvas je null u ButtonuActionu");
         }
-        this.setOnAction(new CalculateSetController(Canvas));
+        int maxIter = (int) ControlPanel.getMaxIterationsSlider().getValue();
+        this.setOnAction(new CalculateSetController(Canvas, new JuliaSetParameters(
+                0.0, 0.0, 1.0,
+                Double.parseDouble(ControlPanel.realTextField.getText()), Double.parseDouble(imaginaryTextField.getText()),
+                maxIter)));
     }
 
     private void setStyle() {
