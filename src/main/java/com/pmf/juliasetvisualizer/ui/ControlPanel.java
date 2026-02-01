@@ -37,7 +37,7 @@ public class ControlPanel extends VBox {
         Label maxIterationsLabel = new Label("Maksimalan broj iteracija:");
         maxIterationsLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 16px;");
     // Slider
-        maxIterationsSlider = new Slider(500, 10000, 1000);
+        maxIterationsSlider = new Slider(100, 1000, 100);
         //maxIterationsSlider.setPadding(new Insets(50,50,50,50));
     // Tekst koji prati slider (N=500)
         Text maxIterationsText = new Text();
@@ -53,8 +53,8 @@ public class ControlPanel extends VBox {
         constantLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 16px;");
 
     // Text boxovi za unos konstante c
-        realTextField = new TextField("1.2");
-        imaginaryTextField = new TextField("1.2");
+        realTextField = new TextField("-0.8");
+        imaginaryTextField = new TextField("0");
 
     // Button
         calculateSetButton = new CalculateSetButton(canvas,"Calculate Julia set!");
