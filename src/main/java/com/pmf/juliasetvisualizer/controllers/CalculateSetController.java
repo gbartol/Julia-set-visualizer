@@ -68,6 +68,7 @@ public class CalculateSetController implements EventHandler<ActionEvent> {
        }catch(InterruptedException e){
            e.printStackTrace();
        }
+        //System.out.println(buffer);
        
        Platform.runLater(()-> {
            GraphicsContext graphCont = Canvas.getGraphicsContext2D();

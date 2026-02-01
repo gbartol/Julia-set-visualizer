@@ -14,6 +14,10 @@ public class JuliaSetCalculator implements Runnable {
     private double cImaginary;
     public static JuliaSetCanvas Canvas;
 
+    static {
+        System.loadLibrary("calculator");
+    }
+
     public JuliaSetCalculator(JuliaSetCanvas canvas,int quadrant, int[][] buffer, double cReal, double cImaginary, int maxIter) {
 
         this.quadrant = quadrant;

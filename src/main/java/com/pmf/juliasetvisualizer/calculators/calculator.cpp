@@ -1,3 +1,5 @@
+#include"com_pmf_juliasetvisualizer_calculators_JuliaSetCalculator.h"
+
 struct kompleks
     {
         jdouble realni;

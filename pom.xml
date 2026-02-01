@@ -71,6 +71,9 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>com.pmf.juliasetvisualizer.Launcher</mainClass>
+                            <options>
+                                <option>-Djava.library.path=${project.basedir}/src/main/cpp</option>
+                            </options>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>
