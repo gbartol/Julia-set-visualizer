@@ -31,16 +31,6 @@ public class JuliaSetParameters {
         return minImag + (py * range / canvasHeight);
     }
 
-    public double mapToReal(int i){
-        // skaliraj na [0, 4] pa -2 shift u [-2, 2]
-        return 4.0 * ((double) i /500) -2.0;
-    }
-
-    public double mapToImaginary(int j){
-        // skaliraj na [0, 4] pa -2 shift u [-2, 2]
-        return 4.0 * ((double) j /500) -2.0;
-    }
-
     public double getCenterX() {
         return centerX;
     }
