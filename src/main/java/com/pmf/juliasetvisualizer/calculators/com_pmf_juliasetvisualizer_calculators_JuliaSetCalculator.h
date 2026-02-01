@@ -13,7 +13,7 @@ extern "C" {
  * Signature: (IDD)I
  */
 JNIEXPORT jint JNICALL Java_com_pmf_juliasetvisualizer_calculators_JuliaSetCalculator_calculate
-  (JNIEnv *, jobject, jint, jdouble, jdouble);
+  (JNIEnv *, jobject, jint, jdouble, jdouble, jdouble, jdouble);
 
 #ifdef __cplusplus
 }

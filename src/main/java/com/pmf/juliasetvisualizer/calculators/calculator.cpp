@@ -34,23 +34,23 @@ struct kompleks
 
 
 JNIEXPORT jint JNICALL Java_com_pmf_juliasetvisualizer_calculators_JuliaSetCalculator_calculate
-  (JNIEnv *, jobject, jint quadrant, jdouble real, jdouble imaginary)
+  (JNIEnv *, jobject, jint maxIteracije, jdouble cReal, jdouble cImaginary, jdouble z0Real, jdouble z0Imaginary)
 {
     
-    kompleks c(real, imaginary);
+    kompleks c(cReal, cImaginary);
 
-    jint iteracije = 100;
-    jint max_br_iteracija;
-    kompleks prijasnji(0,0), trenutni(0,0);
-    jdouble magnituda = trenutni.absolute();
-    for(max_br_iteracija = 0; max_br_iteracija<iteracije && magnituda < 4 ; max_br_iteracija++)
+    jint brIteracija;
+    kompleks prijasnji(z0Real,z0Imaginary), trenutni(0,0);
+    jdouble magnituda = prijasnji.absolute();
+
+    for(brIteracija = 0; brIteracija<maxIteracije && magnituda < 4 ; brIteracija++)
     {
         trenutni = prijasnji.pomnozi(prijasnji).zbroji(c);
         prijasnji = trenutni;
         magnituda = trenutni.absolute();
     }
 
-    return max_br_iteracija;
+    return brIteracija;
     
 }
 

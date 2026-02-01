@@ -89,4 +89,8 @@ public class ControlPanel extends VBox {
             setDefinitionText.setText("Z\u2099\u208A\u2081 = Z\u2099² " + signReal + realTextField.getText() + signImaginary + imaginaryTextField.getText() + "i");
         }
     }
+    
+    public static Slider getMaxIterationsSlider(){
+        return maxIterationsSlider;
+    }
 }
