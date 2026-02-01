@@ -30,9 +30,9 @@ public class ControlPanel extends VBox {
         if(this.canvas==null){
             System.out.println("canvas je null u ControllPanelu");
         }
-        this.canvas.kontrolniint=2;
-        System.out.println("kontrolniint je "+this.canvas.kontrolniint);
-        initializeComponents(canvas);
+        Canvas.kontrolniint=2;
+        System.out.println("kontrolniint je "+Canvas.kontrolniint);
+        initializeComponents(Canvas);
     }
 
     private void initializeComponents(JuliaSetCanvas canvas) {
