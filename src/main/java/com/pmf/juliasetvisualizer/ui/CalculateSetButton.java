@@ -9,6 +9,7 @@ import static com.pmf.juliasetvisualizer.ui.ControlPanel.*;
 
 public class CalculateSetButton extends Button {
     public JuliaSetCanvas canvas;
+    private CalculateSetController calculateSetController;
 
 // Konstruktori
     public CalculateSetButton(JuliaSetCanvas canvas) {
@@ -19,9 +20,10 @@ public class CalculateSetButton extends Button {
 
     }
 
-    public CalculateSetButton(JuliaSetCanvas canvas,String text) {
+    public CalculateSetButton(JuliaSetCanvas canvas, CalculateSetController calculateSetController, String text) {
         super(text);
         this.canvas=canvas;
+        this.calculateSetController = calculateSetController;
         if(this.canvas==null){
             System.out.println("canvas je null u Buttonu");
         }
@@ -47,11 +49,15 @@ public class CalculateSetButton extends Button {
         if(Canvas==null){
             System.out.println("canvas je null u ButtonuActionu");
         }
-        int maxIter = (int) ControlPanel.getMaxIterationsSlider().getValue();
-        this.setOnAction(new CalculateSetController(canvas, new JuliaSetParameters(
-                0.0, 0.0, 1.0,
-                Double.parseDouble(ControlPanel.realTextField.getText()), Double.parseDouble(ControlPanel.imaginaryTextField.getText()),
-                maxIter)));
+        this.setOnAction(e -> {
+            int maxIter = (int) ControlPanel.getMaxIterationsSlider().getValue();
+            JuliaSetParameters newParameters = new JuliaSetParameters(
+                    0.0, 0.0, 1.0,
+                    Double.parseDouble(ControlPanel.realTextField.getText()), Double.parseDouble(ControlPanel.imaginaryTextField.getText()),
+                    maxIter);
+            canvas.setJuliaSetParameters(newParameters);
+            calculateSetController.calculate(newParameters);
+        });
     }
 
     private void setStyle() {

@@ -1,5 +1,7 @@
 package com.pmf.juliasetvisualizer.ui;
 
+import com.pmf.juliasetvisualizer.controllers.CalculateSetController;
+import com.pmf.juliasetvisualizer.models.JuliaSetParameters;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -13,7 +15,9 @@ import java.io.IOException;
 
 public class MainWindow extends Application {
     JuliaSetCanvas juliaSetCanvas = new JuliaSetCanvas(500, 500);
-    ControlPanel controlPanel = new ControlPanel(juliaSetCanvas);
+    JuliaSetParameters defaultParameters = new JuliaSetParameters(0,0,1,-0.576, -1, 500);
+    CalculateSetController calculateSetController = new CalculateSetController(juliaSetCanvas, defaultParameters);
+    ControlPanel controlPanel = new ControlPanel(juliaSetCanvas, calculateSetController);
 
     @Override
     public void start(Stage stage) throws IOException {
