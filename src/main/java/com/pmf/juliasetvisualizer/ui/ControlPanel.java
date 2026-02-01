@@ -18,19 +18,19 @@ public class ControlPanel extends VBox {
     public static TextField imaginaryTextField;
     private static Text setDefinitionText;
     public static CalculateSetButton calculateSetButton;
-    public static JuliaSetCanvas Canvas;
+    public JuliaSetCanvas canvas;
 
     public ControlPanel(JuliaSetCanvas canvas) {
         super(10);
         setPadding(new Insets(10));
         setMinWidth(250);
-        Canvas=canvas;
-        if(Canvas==null){
+        this.canvas=canvas;
+        if(this.canvas==null){
             System.out.println("canvas je null u ControllPanelu");
         }
-        Canvas.kontrolniint=2;
-        System.out.println("kontrolniint je "+Canvas.kontrolniint);
-        initializeComponents(Canvas);
+        this.canvas.kontrolniint=2;
+        System.out.println("kontrolniint je "+this.canvas.kontrolniint);
+        initializeComponents(canvas);
     }
 
     private void initializeComponents(JuliaSetCanvas canvas) {

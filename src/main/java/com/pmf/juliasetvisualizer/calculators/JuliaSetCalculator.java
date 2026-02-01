@@ -12,7 +12,7 @@ public class JuliaSetCalculator implements Runnable {
     private int maxIter;
     private double cReal;
     private double cImaginary;
-    public static JuliaSetCanvas canvas;
+    public JuliaSetCanvas canvas;
     private JuliaSetParameters juliaSetParameters;
     private int canvasWidth;
     private int canvasHeight;
@@ -29,15 +29,15 @@ public class JuliaSetCalculator implements Runnable {
         this.cReal = cReal;
         this.cImaginary = cImaginary;
         this.maxIter = maxIter;
-        JuliaSetCalculator.canvas =canvas;
+        this.canvas =canvas;
         canvasWidth = (int) canvas.getWidth();
         canvasHeight = (int) canvas.getHeight();
-        if(JuliaSetCalculator.canvas ==null){
+        if(this.canvas ==null){
             System.out.println("canvas je null u Calculatoru");
         }
         System.out.println("Pokrenuo novi JuliaSetCalculator");
-        JuliaSetCalculator.canvas.kontrolniint=5;
-        System.out.println("kontrolniint je "+ JuliaSetCalculator.canvas.kontrolniint);
+        this.canvas.kontrolniint=5;
+        System.out.println("kontrolniint je "+ this.canvas.kontrolniint);
         //run(); //Tu ne pozivas funkciju run nego se to radi u controlleru sa imeThreada.start()
     }
 
@@ -89,8 +89,8 @@ public class JuliaSetCalculator implements Runnable {
         {
             for(int j = pocetakY; j<krajY; j++)
             {
-                double z0Real = juliaSetParameters.mapPixelToReal(i, (int) canvas.getWidth());
-                double z0Imaginary = juliaSetParameters.mapPixelToImaginary(j, 500);
+                double z0Real = juliaSetParameters.mapPixelToReal(i, canvasWidth);
+                double z0Imaginary = juliaSetParameters.mapPixelToImaginary(j, canvasHeight);
                 //double z0Real = juliaSetParameters.mapToReal(i);
                 //double z0Imaginary = juliaSetParameters.mapToImaginary(j);
                 
@@ -111,16 +111,6 @@ public class JuliaSetCalculator implements Runnable {
             pw.setColor(i,j, Color.BLUE);
         }
     }
-    
-    private double mapToReal(int i){
-        // skaliraj na [0, 4] pa -2 shift u [-2, 2]
-        return 4.0 * ((double) i /500) -2.0;
-    }
-    
-    private double mapToImaginary(int j){
-        // skaliraj na [0, 4] pa -2 shift u [-2, 2]
-        return 4.0 * ((double) j /500) -2.0;
-    }
-    
+
     private native int calculate(int maxIteracije, double cReal, double cImaginary, double z0Real, double z0Imaginary);
 }
