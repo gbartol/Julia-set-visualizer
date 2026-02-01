@@ -5,8 +5,7 @@ import com.pmf.juliasetvisualizer.models.JuliaSetParameters;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 
-import static com.pmf.juliasetvisualizer.ui.ControlPanel.imaginaryTextField;
-import static com.pmf.juliasetvisualizer.ui.ControlPanel.realTextField;
+import static com.pmf.juliasetvisualizer.ui.ControlPanel.*;
 
 public class CalculateSetButton extends Button {
     public JuliaSetCanvas canvas;
@@ -15,8 +14,8 @@ public class CalculateSetButton extends Button {
 // Konstruktori
     public CalculateSetButton(JuliaSetCanvas canvas) {
         super();
-        Canvas=canvas;
-        setAction(Canvas);
+        this.canvas=canvas;
+        setAction(this.canvas);
         setStyle();
 
     }
@@ -28,7 +27,7 @@ public class CalculateSetButton extends Button {
         if(this.canvas==null){
             System.out.println("canvas je null u Buttonu");
         }
-        setAction(Canvas);
+        setAction(this.canvas);
         setStyle();
 
 
@@ -36,11 +35,11 @@ public class CalculateSetButton extends Button {
 
     public CalculateSetButton(JuliaSetCanvas canvas,String text, Node graphic) {
         super(text, graphic);
-        Canvas=canvas;
-        if(Canvas==null){
+        this.canvas=canvas;
+        if(this.canvas==null){
             System.out.println("canvas je null u Buttonu");
         }
-        setAction(Canvas);
+        setAction(this.canvas);
         setStyle();
 
     }

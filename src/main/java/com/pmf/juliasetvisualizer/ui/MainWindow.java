@@ -23,13 +23,8 @@ public class MainWindow extends Application {
     public void start(Stage stage) throws IOException {
         BorderPane borderPane = new BorderPane();
 
-        JuliaSetCanvas juliaSetCanvas = new JuliaSetCanvas(500, 500);
         borderPane.setRight(juliaSetCanvas);
-
-        ControlPanel controlPanel = new ControlPanel(juliaSetCanvas);
         borderPane.setLeft(controlPanel);
-
-
 
         Scene scene = new Scene(borderPane, 500, 500);
         stage.setTitle("Hello!");

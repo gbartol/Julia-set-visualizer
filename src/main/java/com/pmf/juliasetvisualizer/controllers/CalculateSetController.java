@@ -22,7 +22,9 @@ public class CalculateSetController implements EventHandler<ActionEvent> {
     private double real;
     private double imaginary;
     private int maxIter;
-    public static JuliaSetCanvas Canvas;
+    public JuliaSetCanvas canvas;
+    private int canvasWidth;
+    private int canvasHeight;
     private JuliaSetParameters juliaSetParameters;
     long vrijeme;
 
@@ -31,12 +33,18 @@ public class CalculateSetController implements EventHandler<ActionEvent> {
         this.real = juliaSetParameters.getcReal();
         this.imaginary = juliaSetParameters.getcImaginary();
         this.maxIter = juliaSetParameters.getMaxIterations();
-        Canvas=canvas;
-        if(Canvas==null){
+        this.canvas=canvas;
+        canvasWidth = (int) canvas.getWidth();
+        canvasHeight = (int) canvas.getHeight();
+        if(canvas==null){
             System.out.println("canvas je null u Controlleru");
         }
-        Canvas.kontrolniint=4;
-        System.out.println("kontrolniint je "+Canvas.kontrolniint);
+        this.canvas.kontrolniint=4;
+        System.out.println("kontrolniint je "+canvas.kontrolniint);
+
+
+        this.canvas.setJuliaSetParameters(juliaSetParameters);
+        this.canvas.setCalculateSetController(this);
     }
     @Override
     public void handle(ActionEvent actionEvent) {
