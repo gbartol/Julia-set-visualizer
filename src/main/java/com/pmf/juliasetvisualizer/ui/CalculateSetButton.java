@@ -5,27 +5,28 @@ import com.pmf.juliasetvisualizer.models.JuliaSetParameters;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 
-import static com.pmf.juliasetvisualizer.ui.ControlPanel.*;
+import static com.pmf.juliasetvisualizer.ui.ControlPanel.imaginaryTextField;
+import static com.pmf.juliasetvisualizer.ui.ControlPanel.realTextField;
 
 public class CalculateSetButton extends Button {
-    public JuliaSetCanvas canvas;
+    public static JuliaSetCanvas Canvas;
 
 // Konstruktori
     public CalculateSetButton(JuliaSetCanvas canvas) {
         super();
-        this.canvas=canvas;
-        setAction(this.canvas);
+        Canvas=canvas;
+        setAction(Canvas);
         setStyle();
 
     }
 
     public CalculateSetButton(JuliaSetCanvas canvas,String text) {
         super(text);
-        this.canvas=canvas;
-        if(this.canvas==null){
+        Canvas=canvas;
+        if(Canvas==null){
             System.out.println("canvas je null u Buttonu");
         }
-        setAction(this.canvas);
+        setAction(Canvas);
         setStyle();
 
 
@@ -33,11 +34,11 @@ public class CalculateSetButton extends Button {
 
     public CalculateSetButton(JuliaSetCanvas canvas,String text, Node graphic) {
         super(text, graphic);
-        this.canvas=canvas;
-        if(this.canvas==null){
+        Canvas=canvas;
+        if(Canvas==null){
             System.out.println("canvas je null u Buttonu");
         }
-        setAction(this.canvas);
+        setAction(Canvas);
         setStyle();
 
     }
@@ -48,9 +49,9 @@ public class CalculateSetButton extends Button {
             System.out.println("canvas je null u ButtonuActionu");
         }
         int maxIter = (int) ControlPanel.getMaxIterationsSlider().getValue();
-        this.setOnAction(new CalculateSetController(canvas, new JuliaSetParameters(
+        this.setOnAction(new CalculateSetController(Canvas, new JuliaSetParameters(
                 0.0, 0.0, 1.0,
-                Double.parseDouble(ControlPanel.realTextField.getText()), Double.parseDouble(ControlPanel.imaginaryTextField.getText()),
+                Double.parseDouble(ControlPanel.realTextField.getText()), Double.parseDouble(imaginaryTextField.getText()),
                 maxIter)));
     }
 

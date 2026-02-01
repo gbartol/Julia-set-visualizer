@@ -12,15 +12,17 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class MainWindow extends Application {
-    JuliaSetCanvas juliaSetCanvas = new JuliaSetCanvas(500, 500);
-    ControlPanel controlPanel = new ControlPanel(juliaSetCanvas);
-
     @Override
     public void start(Stage stage) throws IOException {
         BorderPane borderPane = new BorderPane();
 
+        JuliaSetCanvas juliaSetCanvas = new JuliaSetCanvas(500, 500);
         borderPane.setRight(juliaSetCanvas);
+
+        ControlPanel controlPanel = new ControlPanel(juliaSetCanvas);
         borderPane.setLeft(controlPanel);
+
+
 
         Scene scene = new Scene(borderPane, 500, 500);
         stage.setTitle("Hello!");
