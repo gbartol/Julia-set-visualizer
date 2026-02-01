@@ -36,12 +36,8 @@ public class JuliaSetCalculator implements Runnable {
             System.out.println("canvas je null u Calculatoru");
         }
         System.out.println("Pokrenuo novi JuliaSetCalculator");
-<<<<<<< HEAD
-        JuliaSetCalculator.canvas.kontrolniint=5;
-=======
         this.canvas.kontrolniint=5;
         System.out.println("kontrolniint je "+ this.canvas.kontrolniint);
->>>>>>> 6d1525a80a641136b296886432503e89d032ebc7
         //run(); //Tu ne pozivas funkciju run nego se to radi u controlleru sa imeThreada.start()
     }
 
@@ -104,20 +100,7 @@ public class JuliaSetCalculator implements Runnable {
         }
 
     }
-
     
-<<<<<<< HEAD
-    protected double mapToReal(int i){
-        // skaliraj na [0, 4] pa -2 shift u [-2, 2]
-        return 4.0 * ((double) i /500) -2.0;
-    }
-    
-    protected double mapToImaginary(int j){
-        // skaliraj na [0, 4] pa -2 shift u [-2, 2]
-        return 4.0 * ((double) j /500) -2.0;
-    }
-    
-=======
     //Na kraju ce ovo biti useless LOL
     public void getColor(PixelWriter pw,int iteracije,int i,int j){
         if(iteracije==100){
@@ -129,6 +112,5 @@ public class JuliaSetCalculator implements Runnable {
         }
     }
 
->>>>>>> 6d1525a80a641136b296886432503e89d032ebc7
     private native int calculate(int maxIteracije, double cReal, double cImaginary, double z0Real, double z0Imaginary);
 }

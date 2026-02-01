@@ -26,6 +26,7 @@ public class CalculateSetController implements EventHandler<ActionEvent> {
     private int canvasWidth;
     private int canvasHeight;
     private JuliaSetParameters juliaSetParameters;
+    long vrijeme;
 
     public CalculateSetController(JuliaSetCanvas canvas, JuliaSetParameters juliaSetParameters) {
         this.juliaSetParameters = juliaSetParameters;
@@ -58,8 +59,8 @@ public class CalculateSetController implements EventHandler<ActionEvent> {
         this.imaginary = juliaSetParameters.getcImaginary();
         this.maxIter = juliaSetParameters.getMaxIterations();
 
-
-        long startTime=System.currentTimeMillis();
+        new Thread(() -> {
+            long startTime = System.currentTimeMillis();
        /*
         Thread thread1 = new Thread(new JuliaSetCalculator(canvas,1, real, imaginary));
         Thread thread2 = new Thread(new JuliaSetCalculator(canvas,2, real, imaginary));
@@ -68,49 +69,48 @@ public class CalculateSetController implements EventHandler<ActionEvent> {
         Ovako bi bilo problematično s koordinacijom. Lakše s Executorom
         */
 
-        // U buffer će svaka dretva spremati rezultat. on će se ispisati tek nakon što sve dretve završe
-        int[][] buffer = new int[canvasWidth][canvasHeight];
+            // U buffer će svaka dretva spremati rezultat. on će se ispisati tek nakon što sve dretve završe
+            int[][] buffer = new int[canvasWidth][canvasHeight];
 
-        //Upali 4 threada i daj im zadatke
-        ExecutorService executor = Executors.newFixedThreadPool(4);
+            //Upali 4 threada i daj im zadatke
+            ExecutorService executor = Executors.newFixedThreadPool(4);
 
-        executor.submit(new JuliaSetCalculator(canvas, 1, buffer, real, imaginary, maxIter, juliaSetParameters));
-        executor.submit(new JuliaSetCalculator(canvas, 2, buffer, real, imaginary, maxIter, juliaSetParameters));
-        executor.submit(new JuliaSetCalculator(canvas, 3, buffer, real, imaginary, maxIter, juliaSetParameters));
-        executor.submit(new JuliaSetCalculator(canvas, 4, buffer, real, imaginary, maxIter, juliaSetParameters));
+            executor.submit(new JuliaSetCalculator(canvas, 1, buffer, real, imaginary, maxIter, juliaSetParameters));
+            executor.submit(new JuliaSetCalculator(canvas, 2, buffer, real, imaginary, maxIter, juliaSetParameters));
+            executor.submit(new JuliaSetCalculator(canvas, 3, buffer, real, imaginary, maxIter, juliaSetParameters));
+            executor.submit(new JuliaSetCalculator(canvas, 4, buffer, real, imaginary, maxIter, juliaSetParameters));
 
-        //kill the executor
-        executor.shutdown();
-        try{
-            executor.awaitTermination(60, TimeUnit.SECONDS);
-        }catch(InterruptedException e){
-            e.printStackTrace();
-        }
-        //System.out.println(buffer);
-
-        Platform.runLater(()-> {
-            GraphicsContext graphCont = canvas.getGraphicsContext2D();
-            PixelWriter pixwrite = graphCont.getPixelWriter();
-            //Time for crtanje
-            for(int x = 0; x < canvasWidth; x++)
-            {
-                for(int y = 0; y<canvasHeight; y++)
-                {
-                    int iteracija = buffer[x][y];
-                    if(iteracija == maxIter)
-                        pixwrite.setColor(x, y, Color.BLACK);
-                    else
-                        //hsb = hue, saturation, brightness. hue je 360*t za 0<=t<=1
-                        pixwrite.setColor(x, y, Color.hsb(360* ((double) iteracija /maxIter), 1.0, 1.0));
-                }
+            //kill the executor
+            executor.shutdown();
+            try {
+                executor.awaitTermination(60, TimeUnit.SECONDS);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
+            //System.out.println(buffer);
 
+            Platform.runLater(() -> {
+                GraphicsContext graphCont = canvas.getGraphicsContext2D();
+                PixelWriter pixwrite = graphCont.getPixelWriter();
+                //Time for crtanje
+                for (int x = 0; x < canvasWidth; x++) {
+                    for (int y = 0; y < canvasHeight; y++) {
+                        int iteracija = buffer[x][y];
+                        if (iteracija == maxIter)
+                            pixwrite.setColor(x, y, Color.BLACK);
+                        else
+                            //hsb = hue, saturation, brightness. hue je 360*t za 0<=t<=1
+                            pixwrite.setColor(x, y, Color.hsb(360 * ((double) iteracija / maxIter), 1.0, 1.0));
+                    }
+                }
 
-        });
+                long endTime = System.currentTimeMillis();
+                this.vrijeme=endTime-startTime;
 
-        long endTime=System.currentTimeMillis();
-        long vrijeme=endTime-startTime;
-        System.out.println("Vrijeme je "+vrijeme);
+            });
+
+        }).start();
+        System.out.println("Vrijeme je "+this.vrijeme);
     }
     
     public static boolean isValidInput() {

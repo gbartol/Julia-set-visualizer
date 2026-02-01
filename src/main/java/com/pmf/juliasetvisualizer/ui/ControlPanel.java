@@ -19,11 +19,13 @@ public class ControlPanel extends VBox {
     private static Text setDefinitionText;
     public static CalculateSetButton calculateSetButton;
     public JuliaSetCanvas canvas;
+    private CalculateSetController calculateSetController;
 
-    public ControlPanel(JuliaSetCanvas canvas) {
+    public ControlPanel(JuliaSetCanvas canvas, CalculateSetController calculateSetController) {
         super(10);
         setPadding(new Insets(10));
         setMinWidth(250);
+        this.calculateSetController = calculateSetController;
         this.canvas=canvas;
         if(this.canvas==null){
             System.out.println("canvas je null u ControllPanelu");
@@ -58,7 +60,7 @@ public class ControlPanel extends VBox {
         imaginaryTextField = new TextField("0.156");
 
     // Button
-        calculateSetButton = new CalculateSetButton(canvas,"Calculate Julia set!");
+        calculateSetButton = new CalculateSetButton(canvas, calculateSetController, "Calculate Julia set!");
 
     // Tekst koji ispisuje definiciju skupa
         setDefinitionText = new Text("Z\u2099\u208A\u2081 = Z\u2099² + " + realTextField.getText() + " + " + imaginaryTextField.getText() + "i");
