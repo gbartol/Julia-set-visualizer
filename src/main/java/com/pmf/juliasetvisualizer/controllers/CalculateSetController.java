@@ -79,11 +79,13 @@ public class CalculateSetController implements EventHandler<ActionEvent> {
                for(int y = 0; y<500; y++)
                {
                    int iteracija = buffer[x][y];
+                   if(iteracija > 99)
+                       System.out.println(iteracija);
                    if(iteracija == maxIter) 
                        pixwrite.setColor(x, y, Color.BLACK);
                    else
                        //hsb = hue, saturation, brightness. hue je 360*t za 0<=t<=1
-                       pixwrite.setColor(x, y, Color.hsb(360* (iteracija/maxIter), 1.0, 1.0));
+                       pixwrite.setColor(x, y, Color.hsb(360* ((double) iteracija /maxIter), 1.0, 1.0));
                }
            }
            

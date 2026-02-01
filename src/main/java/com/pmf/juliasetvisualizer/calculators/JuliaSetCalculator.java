@@ -106,12 +106,12 @@ public class JuliaSetCalculator implements Runnable {
     
     private double mapToReal(int i){
         // skaliraj na [0, 4] pa -2 shift u [-2, 2]
-        return 4.0 * (i/500) -2.0;
+        return 4.0 * ((double) i /500) -2.0;
     }
     
     private double mapToImaginary(int j){
         // skaliraj na [0, 4] pa -2 shift u [-2, 2]
-        return 4.0 * (j/500) -2.0;
+        return 4.0 * ((double) j /500) -2.0;
     }
     
     private native int calculate(int maxIteracije, double cReal, double cImaginary, double z0Real, double z0Imaginary);
