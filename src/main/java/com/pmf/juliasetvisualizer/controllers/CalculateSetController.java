@@ -1,6 +1,7 @@
 package com.pmf.juliasetvisualizer.controllers;
 
 import com.pmf.juliasetvisualizer.calculators.JuliaSetCalculator;
+import com.pmf.juliasetvisualizer.models.JuliaSetParameters;
 import com.pmf.juliasetvisualizer.ui.ControlPanel;
 
 import com.pmf.juliasetvisualizer.ui.JuliaSetCanvas;
@@ -20,16 +21,18 @@ import javafx.scene.paint.Color;
 public class CalculateSetController implements EventHandler<ActionEvent> {
     private double real;
     private double imaginary;
+    private int maxIter;
     public static JuliaSetCanvas Canvas;
+    private JuliaSetParameters juliaSetParameters;
 
-    public CalculateSetController(JuliaSetCanvas canvas) {
-        this.real = Double.parseDouble(ControlPanel.realTextField.getText());
-        this.imaginary = Double.parseDouble(imaginaryTextField.getText());
-        System.out.println(this.real);
-        System.out.println(this.imaginary);
+    public CalculateSetController(JuliaSetCanvas canvas, JuliaSetParameters juliaSetParameters) {
+        this.juliaSetParameters = juliaSetParameters;
+        this.real = juliaSetParameters.getcReal();
+        this.imaginary = juliaSetParameters.getcImaginary();
+        this.maxIter = juliaSetParameters.getMaxIterations();
         Canvas=canvas;
         if(Canvas==null){
-            System.out.println("Canvas je null u Controlleru");
+            System.out.println("canvas je null u Controlleru");
         }
         Canvas.kontrolniint=4;
         System.out.println("kontrolniint je "+Canvas.kontrolniint);
@@ -38,15 +41,12 @@ public class CalculateSetController implements EventHandler<ActionEvent> {
     public void handle(ActionEvent actionEvent) {
         if(!isValidInput()) return;
         
-        double real = Double.parseDouble(ControlPanel.realTextField.getText());
-        double imaginary = Double.parseDouble(imaginaryTextField.getText());
-        int maxIter = (int) ControlPanel.getMaxIterationsSlider().getValue();
         long startTime=System.currentTimeMillis();
        /* 
-        Thread thread1 = new Thread(new JuliaSetCalculator(Canvas,1, real, imaginary));
-        Thread thread2 = new Thread(new JuliaSetCalculator(Canvas,2, real, imaginary));
-        Thread thread3 = new Thread(new JuliaSetCalculator(Canvas,3, real, imaginary));
-        Thread thread4 = new Thread(new JuliaSetCalculator(Canvas,4, real, imaginary));
+        Thread thread1 = new Thread(new JuliaSetCalculator(canvas,1, real, imaginary));
+        Thread thread2 = new Thread(new JuliaSetCalculator(canvas,2, real, imaginary));
+        Thread thread3 = new Thread(new JuliaSetCalculator(canvas,3, real, imaginary));
+        Thread thread4 = new Thread(new JuliaSetCalculator(canvas,4, real, imaginary));
         Ovako bi bilo problematično s koordinacijom. Lakše s Executorom
         */
        
@@ -56,10 +56,10 @@ public class CalculateSetController implements EventHandler<ActionEvent> {
        //Upali 4 threada i daj im zadatke
        ExecutorService executor = Executors.newFixedThreadPool(4);
        
-       executor.submit(new JuliaSetCalculator(ControlPanel.Canvas, 1, buffer, real, imaginary, maxIter));
-       executor.submit(new JuliaSetCalculator(ControlPanel.Canvas, 2, buffer, real, imaginary, maxIter));
-       executor.submit(new JuliaSetCalculator(ControlPanel.Canvas, 3, buffer, real, imaginary, maxIter));
-       executor.submit(new JuliaSetCalculator(ControlPanel.Canvas, 4, buffer, real, imaginary, maxIter));
+       executor.submit(new JuliaSetCalculator(ControlPanel.Canvas, 1, buffer, real, imaginary, maxIter, juliaSetParameters));
+       executor.submit(new JuliaSetCalculator(ControlPanel.Canvas, 2, buffer, real, imaginary, maxIter, juliaSetParameters));
+       executor.submit(new JuliaSetCalculator(ControlPanel.Canvas, 3, buffer, real, imaginary, maxIter, juliaSetParameters));
+       executor.submit(new JuliaSetCalculator(ControlPanel.Canvas, 4, buffer, real, imaginary, maxIter, juliaSetParameters));
        
        //kill the executor
        executor.shutdown();
@@ -79,9 +79,7 @@ public class CalculateSetController implements EventHandler<ActionEvent> {
                for(int y = 0; y<500; y++)
                {
                    int iteracija = buffer[x][y];
-                   if(iteracija > 99)
-                       System.out.println(iteracija);
-                   if(iteracija == maxIter) 
+                   if(iteracija == maxIter)
                        pixwrite.setColor(x, y, Color.BLACK);
                    else
                        //hsb = hue, saturation, brightness. hue je 360*t za 0<=t<=1

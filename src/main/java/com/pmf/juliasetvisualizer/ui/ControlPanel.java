@@ -1,6 +1,7 @@
 package com.pmf.juliasetvisualizer.ui;
 
 import com.pmf.juliasetvisualizer.controllers.CalculateSetController;
+import com.pmf.juliasetvisualizer.models.JuliaSetParameters;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
@@ -25,7 +26,7 @@ public class ControlPanel extends VBox {
         setMinWidth(250);
         Canvas=canvas;
         if(Canvas==null){
-            System.out.println("Canvas je null u ControllPanelu");
+            System.out.println("canvas je null u ControllPanelu");
         }
         Canvas.kontrolniint=2;
         System.out.println("kontrolniint je "+Canvas.kontrolniint);
@@ -37,7 +38,7 @@ public class ControlPanel extends VBox {
         Label maxIterationsLabel = new Label("Maksimalan broj iteracija:");
         maxIterationsLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 16px;");
     // Slider
-        maxIterationsSlider = new Slider(500, 10000, 1000);
+        maxIterationsSlider = new Slider(100, 1000, 100);
         //maxIterationsSlider.setPadding(new Insets(50,50,50,50));
     // Tekst koji prati slider (N=500)
         Text maxIterationsText = new Text();
@@ -53,8 +54,8 @@ public class ControlPanel extends VBox {
         constantLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 16px;");
 
     // Text boxovi za unos konstante c
-        realTextField = new TextField("1.2");
-        imaginaryTextField = new TextField("1.2");
+        realTextField = new TextField("-0.8");
+        imaginaryTextField = new TextField("0.156");
 
     // Button
         calculateSetButton = new CalculateSetButton(canvas,"Calculate Julia set!");
