@@ -50,6 +50,7 @@ public class JuliaSetCanvas extends Canvas {
                     juliaSetParameters.getMaxIterations()
             );
 
+            this.juliaSetParameters = newParameters;
             calculateSetController.calculate(newParameters);
         });
     }
