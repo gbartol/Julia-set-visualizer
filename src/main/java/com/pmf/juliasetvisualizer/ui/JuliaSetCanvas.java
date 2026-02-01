@@ -13,7 +13,6 @@ public class JuliaSetCanvas extends Canvas {
     public JuliaSetCanvas() {
         super();
         kontrolniint=1;
-        System.out.println("kontrolniint je "+kontrolniint);
         gc = this.getGraphicsContext2D();
         pw = gc.getPixelWriter();
     }
