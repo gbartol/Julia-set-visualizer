@@ -92,24 +92,14 @@ public class JuliaSetCalculator implements Runnable {
         }
 
     }
+
     
-    //Na kraju ce ovo biti useless LOL
-    public void getColor(PixelWriter pw,int iteracije,int i,int j){
-        if(iteracije==100){
-            pw.setColor(i,j, Color.BLACK);
-        } else if (iteracije<100 && iteracije>50) {
-            pw.setColor(i,j, Color.GREEN);
-        } else if (iteracije<50) {
-            pw.setColor(i,j, Color.BLUE);
-        }
-    }
-    
-    private double mapToReal(int i){
+    protected double mapToReal(int i){
         // skaliraj na [0, 4] pa -2 shift u [-2, 2]
         return 4.0 * ((double) i /500) -2.0;
     }
     
-    private double mapToImaginary(int j){
+    protected double mapToImaginary(int j){
         // skaliraj na [0, 4] pa -2 shift u [-2, 2]
         return 4.0 * ((double) j /500) -2.0;
     }
