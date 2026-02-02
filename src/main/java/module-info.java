@@ -2,6 +2,7 @@ module com.pmf.juliasetvisualizer {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.graphics;
+     requires java.sql;
 
 
     exports com.pmf.juliasetvisualizer;
@@ -9,6 +10,7 @@ module com.pmf.juliasetvisualizer {
     exports com.pmf.juliasetvisualizer.calculators;
     exports com.pmf.juliasetvisualizer.controllers;
     exports com.pmf.juliasetvisualizer.models;
+    exports com.pmf.juliasetvisualizer.db;
 
     opens com.pmf.juliasetvisualizer to javafx.graphics, javafx.fxml;
     opens com.pmf.juliasetvisualizer.ui to javafx.graphics, javafx.fxml;
