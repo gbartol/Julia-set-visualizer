@@ -54,4 +54,9 @@ public class JuliaSetParameters {
     public int getMaxIterations() {
         return maxIterations;
     }
+    
+    @Override
+    public String toString(){
+        return String.format("c=%.3f+%.3fi, center=(%.3f,%.3f), zoom=%.2f, N=%d", cReal, cImaginary, centerX, centerY, zoom, maxIterations);
+    }
 }

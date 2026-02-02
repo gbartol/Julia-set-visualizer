@@ -113,6 +113,9 @@ public class CalculateSetController implements EventHandler<ActionEvent> {
         System.out.println("Vrijeme je "+this.vrijeme);
     }
     
+    public long getRenderTime(){
+        return vrijeme;
+    }
     public static boolean isValidInput() {
         boolean valid = true;
 
