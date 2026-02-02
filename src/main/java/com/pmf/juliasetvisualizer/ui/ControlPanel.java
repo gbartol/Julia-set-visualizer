@@ -29,6 +29,7 @@ public class ControlPanel extends VBox {
     public JuliaSetCanvas canvas;
     private CalculateSetController calculateSetController;
     private ListView<JuliaSetParameters> savedSetsListView;
+    private ObservableList<JuliaSetParameters> savedSets;
 
     public ControlPanel(JuliaSetCanvas canvas, CalculateSetController calculateSetController) {
         super(10);
@@ -71,6 +72,7 @@ public class ControlPanel extends VBox {
     // Button za izračun
         calculateSetButton = new CalculateSetButton(canvas, calculateSetController, "Calculate Julia set!");
         
+    //Button za spremanje u bazu
         Button saveButton = new Button("Spremi Julia Set");
         saveButton.setStyle("-fx-font-size: 14px;");
         
@@ -94,7 +96,7 @@ public class ControlPanel extends VBox {
         });
         
         // lista spremljenih julia setova i zoomova
-        ObservableList<JuliaSetParameters> savedSets = FXCollections.observableArrayList(JuliaSetDAO.selectAll());
+        savedSets = FXCollections.observableArrayList(JuliaSetDAO.selectAll());
         
         savedSetsListView = new ListView<>(savedSets);
         savedSetsListView.setPrefHeight(500);
@@ -121,6 +123,22 @@ public class ControlPanel extends VBox {
             }
         });
         
+        Button deleteButton = new Button("Obriši odabrani zoom");
+        deleteButton.setStyle("-fx-font-size: 14px;");
+        
+        deleteButton.setOnAction(e -> {
+            
+        JuliaSetParameters selected = savedSetsListView.getSelectionModel().getSelectedItem();
+        
+        if(selected == null){
+            System.out.println("Nema odabira");
+            return;
+        }
+        
+        JuliaSetDAO.delete(selected.getId());
+        savedSets.setAll(JuliaSetDAO.selectAll());
+        });
+        
        
 
     // Tekst koji ispisuje definiciju skupa
@@ -140,7 +158,8 @@ public class ControlPanel extends VBox {
             calculateSetButton,
             new Separator(),
             saveButton,
-            savedSetsListView
+            savedSetsListView,
+            deleteButton
         );
     }
 

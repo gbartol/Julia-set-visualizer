@@ -4,6 +4,7 @@ package com.pmf.juliasetvisualizer.models;
 // Biti će korisno za bazu podataka kasnije
 public class JuliaSetParameters {
 
+    private int id;
     private double centerX;
     private double centerY;
     private double zoom;
@@ -12,6 +13,16 @@ public class JuliaSetParameters {
     private int maxIterations;
 
     public JuliaSetParameters(double centerX, double centerY, double zoom, double cReal, double cImaginary, int maxIterations) {
+        this.centerX = centerX;
+        this.centerY = centerY;
+        this.zoom = zoom;
+        this.cReal = cReal;
+        this.cImaginary = cImaginary;
+        this.maxIterations = maxIterations;
+    }
+    
+    public JuliaSetParameters(int id, double centerX, double centerY, double zoom, double cReal, double cImaginary, int maxIterations) {
+        this.id = id;
         this.centerX = centerX;
         this.centerY = centerY;
         this.zoom = zoom;
@@ -30,7 +41,11 @@ public class JuliaSetParameters {
         double minImag = centerY - range / 2;
         return minImag + (py * range / canvasHeight);
     }
-
+    
+    public int getId(){
+        return id;
+    }
+    
     public double getCenterX() {
         return centerX;
     }
