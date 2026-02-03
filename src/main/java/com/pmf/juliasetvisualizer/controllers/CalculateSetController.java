@@ -5,6 +5,7 @@ import com.pmf.juliasetvisualizer.models.JuliaSetParameters;
 import com.pmf.juliasetvisualizer.ui.ControlPanel;
 
 import com.pmf.juliasetvisualizer.ui.JuliaSetCanvas;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
@@ -26,7 +27,8 @@ public class CalculateSetController implements EventHandler<ActionEvent> {
     private int canvasWidth;
     private int canvasHeight;
     private JuliaSetParameters juliaSetParameters;
-    long vrijeme;
+    private long vrijeme;
+    private int[][] buffer;
 
     public CalculateSetController(JuliaSetCanvas canvas, JuliaSetParameters juliaSetParameters) {
         this.juliaSetParameters = juliaSetParameters;
@@ -59,58 +61,52 @@ public class CalculateSetController implements EventHandler<ActionEvent> {
         this.imaginary = juliaSetParameters.getcImaginary();
         this.maxIter = juliaSetParameters.getMaxIterations();
 
-        new Thread(() -> {
-            long startTime = System.currentTimeMillis();
-       /*
-        Thread thread1 = new Thread(new JuliaSetCalculator(canvas,1, real, imaginary));
-        Thread thread2 = new Thread(new JuliaSetCalculator(canvas,2, real, imaginary));
-        Thread thread3 = new Thread(new JuliaSetCalculator(canvas,3, real, imaginary));
-        Thread thread4 = new Thread(new JuliaSetCalculator(canvas,4, real, imaginary));
-        Ovako bi bilo problematično s koordinacijom. Lakše s Executorom
-        */
+        Task calculateTask = new Task<Void>() {
+            @Override
+            protected Void call() throws Exception {
+                long startTime = System.currentTimeMillis();
 
-            // U buffer će svaka dretva spremati rezultat. on će se ispisati tek nakon što sve dretve završe
-            int[][] buffer = new int[canvasWidth][canvasHeight];
+                // U buffer će svaka dretva spremati rezultat. on će se ispisati tek nakon što sve dretve završe
+                int[][] buffer = new int[canvasWidth][canvasHeight];
 
-            //Upali 4 threada i daj im zadatke
-            ExecutorService executor = Executors.newFixedThreadPool(4);
+                //Upali 4 threada i daj im zadatke
+                ExecutorService executor = Executors.newFixedThreadPool(4);
 
-            executor.submit(new JuliaSetCalculator(canvas, 1, buffer, real, imaginary, maxIter, juliaSetParameters));
-            executor.submit(new JuliaSetCalculator(canvas, 2, buffer, real, imaginary, maxIter, juliaSetParameters));
-            executor.submit(new JuliaSetCalculator(canvas, 3, buffer, real, imaginary, maxIter, juliaSetParameters));
-            executor.submit(new JuliaSetCalculator(canvas, 4, buffer, real, imaginary, maxIter, juliaSetParameters));
+                executor.submit(new JuliaSetCalculator(canvas, 1, buffer, real, imaginary, maxIter, juliaSetParameters));
+                executor.submit(new JuliaSetCalculator(canvas, 2, buffer, real, imaginary, maxIter, juliaSetParameters));
+                executor.submit(new JuliaSetCalculator(canvas, 3, buffer, real, imaginary, maxIter, juliaSetParameters));
+                executor.submit(new JuliaSetCalculator(canvas, 4, buffer, real, imaginary, maxIter, juliaSetParameters));
 
-            //kill the executor
-            executor.shutdown();
-            try {
-                executor.awaitTermination(60, TimeUnit.SECONDS);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            //System.out.println(buffer);
-
-            Platform.runLater(() -> {
-                GraphicsContext graphCont = canvas.getGraphicsContext2D();
-                PixelWriter pixwrite = graphCont.getPixelWriter();
-                //Time for crtanje
-                for (int x = 0; x < canvasWidth; x++) {
-                    for (int y = 0; y < canvasHeight; y++) {
-                        int iteracija = buffer[x][y];
-                        if (iteracija == maxIter)
-                            pixwrite.setColor(x, y, Color.BLACK);
-                        else
-                            //hsb = hue, saturation, brightness. hue je 360*t za 0<=t<=1
-                            pixwrite.setColor(x, y, Color.hsb(360 * ((double) iteracija / maxIter), 1.0, 1.0));
-                    }
+                //kill the executor
+                executor.shutdown();
+                try {
+                    executor.awaitTermination(60, TimeUnit.SECONDS);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
 
                 long endTime = System.currentTimeMillis();
-                this.vrijeme=endTime-startTime;
+                setVrijeme(startTime, endTime);
 
-            });
+                setBuffer(buffer);
 
-        }).start();
-        System.out.println("Vrijeme je "+this.vrijeme);
+                return null;
+            }
+
+            @Override
+            protected void succeeded() {
+                super.succeeded();
+                draw(buffer);
+            }
+
+            @Override
+            protected void failed() {
+                super.failed();
+                System.out.println("Thread je failao");
+            }
+        };
+
+        new Thread(calculateTask).start();
     }
     
     public long getRenderTime(){
@@ -142,5 +138,30 @@ public class CalculateSetController implements EventHandler<ActionEvent> {
             return true;
         else
             return false;
+    }
+
+    private void draw(int buffer[][]) {
+
+        GraphicsContext graphCont = canvas.getGraphicsContext2D();
+        PixelWriter pixwrite = graphCont.getPixelWriter();
+        //Time for crtanje
+        for (int x = 0; x < canvasWidth; x++) {
+            for (int y = 0; y < canvasHeight; y++) {
+                int iteracija = buffer[x][y];
+                if (iteracija == maxIter)
+                    pixwrite.setColor(x, y, Color.BLACK);
+                else
+                    //hsb = hue, saturation, brightness. hue je 360*t za 0<=t<=1
+                    pixwrite.setColor(x, y, Color.hsb(360 * ((double) iteracija / maxIter), 1.0, 1.0));
+            }
+        }
+    }
+
+    private void setVrijeme(long start, long end) {
+        this.vrijeme = start-end;
+    }
+
+    private void setBuffer(int[][] buffer) {
+        this.buffer = buffer;
     }
 }

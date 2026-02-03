@@ -4,12 +4,7 @@ import com.pmf.juliasetvisualizer.controllers.CalculateSetController;
 import com.pmf.juliasetvisualizer.models.JuliaSetParameters;
 import com.pmf.juliasetvisualizer.db.JuliaSetDAO;
 import javafx.geometry.Insets;
-import javafx.scene.control.Label;
-import javafx.scene.control.Separator;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.collections.FXCollections;
@@ -30,12 +25,14 @@ public class ControlPanel extends VBox {
     private CalculateSetController calculateSetController;
     private ListView<JuliaSetParameters> savedSetsListView;
     private ObservableList<JuliaSetParameters> savedSets;
+    private ProgressBar progressBar;
 
-    public ControlPanel(JuliaSetCanvas canvas, CalculateSetController calculateSetController) {
+    public ControlPanel(JuliaSetCanvas canvas, CalculateSetController calculateSetController, ProgressBar progressBar) {
         super(10);
         setPadding(new Insets(10));
         setMinWidth(250);
         this.calculateSetController = calculateSetController;
+        this.progressBar = progressBar;
         this.canvas=canvas;
         if(this.canvas==null){
             System.out.println("canvas je null u ControllPanelu");
@@ -177,5 +174,9 @@ public class ControlPanel extends VBox {
     
     public static Slider getMaxIterationsSlider(){
         return maxIterationsSlider;
+    }
+
+    public ProgressBar getProgressBar() {
+        return progressBar;
     }
 }

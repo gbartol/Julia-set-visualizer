@@ -5,6 +5,7 @@ import com.pmf.juliasetvisualizer.models.JuliaSetParameters;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -14,10 +15,11 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class MainWindow extends Application {
-    JuliaSetCanvas juliaSetCanvas = new JuliaSetCanvas(500, 500);
-    JuliaSetParameters defaultParameters = new JuliaSetParameters(0,0,1,-0.576, -1, 500);
-    CalculateSetController calculateSetController = new CalculateSetController(juliaSetCanvas, defaultParameters);
-    ControlPanel controlPanel = new ControlPanel(juliaSetCanvas, calculateSetController);
+    private JuliaSetCanvas juliaSetCanvas = new JuliaSetCanvas(500, 500);
+    private JuliaSetParameters defaultParameters = new JuliaSetParameters(0,0,1,-0.576, -1, 500);
+    private CalculateSetController calculateSetController = new CalculateSetController(juliaSetCanvas, defaultParameters);
+    private ProgressBar progressBar = new ProgressBar();
+    private ControlPanel controlPanel = new ControlPanel(juliaSetCanvas, calculateSetController, progressBar);
 
     @Override
     public void start(Stage stage) throws IOException {
