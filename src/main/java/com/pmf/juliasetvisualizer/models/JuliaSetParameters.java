@@ -31,6 +31,7 @@ public class JuliaSetParameters {
         this.cReal = cReal;
         this.cImaginary = cImaginary;
         this.maxIterations = maxIterations;
+        this.colorValue=colorValue;
     }
 
     public double mapPixelToReal(int px, int canvasWidth) {
@@ -72,7 +73,9 @@ public class JuliaSetParameters {
         return maxIterations;
     }
 
-    public double getColorValue(){return colorValue;}
+    public double getColorValue(){
+        return colorValue;
+    }
 
     
     @Override

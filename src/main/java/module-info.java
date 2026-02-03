@@ -2,7 +2,9 @@ module com.pmf.juliasetvisualizer {
     requires javafx.controls;
     requires javafx.fxml;
     requires javafx.graphics;
-     requires java.sql;
+    requires java.sql;
+    requires javafx.swing;  // Omogućuje pristup SwingFXUtils
+    requires java.desktop;
 
 
     exports com.pmf.juliasetvisualizer;

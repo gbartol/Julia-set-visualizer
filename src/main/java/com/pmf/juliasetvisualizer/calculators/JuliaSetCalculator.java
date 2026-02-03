@@ -115,5 +115,5 @@ public class JuliaSetCalculator implements Runnable {
         }
     }
 
-    protected static native int calculate(int maxIteracije, double cReal, double cImaginary, double z0Real, double z0Imaginary);
+    public static native int calculate(int maxIteracije, double cReal, double cImaginary, double z0Real, double z0Imaginary);
 }

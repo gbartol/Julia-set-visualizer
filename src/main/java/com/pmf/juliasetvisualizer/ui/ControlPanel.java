@@ -3,6 +3,9 @@ package com.pmf.juliasetvisualizer.ui;
 import com.pmf.juliasetvisualizer.controllers.CalculateSetController;
 import com.pmf.juliasetvisualizer.models.JuliaSetParameters;
 import com.pmf.juliasetvisualizer.db.JuliaSetDAO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
@@ -10,6 +13,11 @@ import javafx.scene.text.Text;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ListView;
+import javafx.scene.image.WritableImage;
+import javafx.embed.swing.SwingFXUtils;
+import javafx.event.ActionEvent;
+import javafx.stage.FileChooser;
+import javax.imageio.ImageIO;
 
 
 
@@ -107,6 +115,50 @@ public class ControlPanel extends VBox {
             
         });
         
+        //Button za export
+        
+        Button exportBtn = new Button("Export JPG");
+        
+        exportBtn.setOnAction((ActionEvent e) -> {
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("Spremi sliku Julia seta");
+                
+                //Gledaj samo slike
+                fileChooser.getExtensionFilters().addAll(
+                    new FileChooser.ExtensionFilter("PNG slika", "*.png"),
+                    new FileChooser.ExtensionFilter("JPG slika", "*.jpg")
+                );
+                
+                fileChooser.setInitialFileName("julia_set_export.png");
+                
+                //centriranje
+                File file = fileChooser.showSaveDialog(this.getScene().getWindow()); 
+                
+                if(file != null){
+                    try{
+                    WritableImage image = new WritableImage((int) canvas.getWidth(), (int) canvas.getHeight()); 
+                    canvas.snapshot(null, image);
+                    BufferedImage bufferedImage = SwingFXUtils.fromFXImage(image, null);
+
+                    String fileName = file.getName().toLowerCase();
+                    String format = (fileName.endsWith(".jpg") || fileName.endsWith(".jpeg")) ? "jpg" : "png";
+
+                    boolean success = ImageIO.write(bufferedImage, format, file);
+
+                    if(success)
+                        System.out.println("uspješno exportano u: " + file.getAbsolutePath());   
+                
+                   
+                    }
+                    catch (IOException ex){
+                        ex.printStackTrace();
+                        }
+                    
+                }
+           
+        });
+        
+        
         // lista spremljenih julia setova i zoomova
         savedSets = FXCollections.observableArrayList(JuliaSetDAO.selectAll());
         
@@ -174,6 +226,7 @@ public class ControlPanel extends VBox {
             savedSetsListView,
             deleteButton,
             new Separator(),
+            exportBtn,
             progressBar
         );
     }
