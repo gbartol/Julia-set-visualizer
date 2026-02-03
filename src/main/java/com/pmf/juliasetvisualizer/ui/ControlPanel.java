@@ -2,14 +2,22 @@ package com.pmf.juliasetvisualizer.ui;
 
 import com.pmf.juliasetvisualizer.controllers.CalculateSetController;
 import com.pmf.juliasetvisualizer.models.JuliaSetParameters;
-import javafx.event.ActionEvent;
+import com.pmf.juliasetvisualizer.db.JuliaSetDAO;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.ListView;
+
+
+
 
 public class ControlPanel extends VBox {
 
@@ -20,6 +28,8 @@ public class ControlPanel extends VBox {
     public static CalculateSetButton calculateSetButton;
     public JuliaSetCanvas canvas;
     private CalculateSetController calculateSetController;
+    private ListView<JuliaSetParameters> savedSetsListView;
+    private ObservableList<JuliaSetParameters> savedSets;
 
     public ControlPanel(JuliaSetCanvas canvas, CalculateSetController calculateSetController) {
         super(10);
@@ -40,7 +50,7 @@ public class ControlPanel extends VBox {
         Label maxIterationsLabel = new Label("Maksimalan broj iteracija:");
         maxIterationsLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 16px;");
     // Slider
-        maxIterationsSlider = new Slider(100, 1000, 100);
+        maxIterationsSlider = new Slider(100, 10000, 100);
         //maxIterationsSlider.setPadding(new Insets(50,50,50,50));
     // Tekst koji prati slider (N=500)
         Text maxIterationsText = new Text();
@@ -59,8 +69,77 @@ public class ControlPanel extends VBox {
         realTextField = new TextField("-0.8");
         imaginaryTextField = new TextField("0.156");
 
-    // Button
+    // Button za izračun
         calculateSetButton = new CalculateSetButton(canvas, calculateSetController, "Calculate Julia set!");
+        
+    //Button za spremanje u bazu
+        Button saveButton = new Button("Spremi Julia Set");
+        saveButton.setStyle("-fx-font-size: 14px;");
+        
+        saveButton.setOnAction(e -> {
+            
+            
+            if(canvas.getJuliaSetParameters() != null)
+            {
+                JuliaSetParameters parameters = canvas.getJuliaSetParameters();
+               long renderTime = calculateSetController.getRenderTime();
+            
+                JuliaSetDAO.save(parameters, renderTime);
+                System.out.println("Novi set je spremljen u bazu");
+             
+            }
+            else
+            {
+                System.out.println("Nema parametara");
+            }
+            
+        });
+        
+        // lista spremljenih julia setova i zoomova
+        savedSets = FXCollections.observableArrayList(JuliaSetDAO.selectAll());
+        
+        savedSetsListView = new ListView<>(savedSets);
+        savedSetsListView.setPrefHeight(500);
+        savedSetsListView.setStyle("fx-font-size: 14px;");
+        
+        savedSetsListView.setOnMouseClicked(e -> {
+            JuliaSetParameters selected = savedSetsListView.getSelectionModel().getSelectedItem();
+            if(selected != null)
+            {
+                canvas.setJuliaSetParameters(selected);
+                calculateSetController.calculate(selected);
+            }
+        });
+        
+        //button refresha listu
+        saveButton.setOnAction(e->{
+            JuliaSetParameters parameters = canvas.getJuliaSetParameters();
+            if(parameters != null)
+            {
+                JuliaSetDAO.save(parameters, calculateSetController.getRenderTime());
+                System.out.println("Julia set spremljen u bazu!");
+                
+                savedSets.setAll(JuliaSetDAO.selectAll());
+            }
+        });
+        
+        Button deleteButton = new Button("Obriši odabrani zoom");
+        deleteButton.setStyle("-fx-font-size: 14px;");
+        
+        deleteButton.setOnAction(e -> {
+            
+        JuliaSetParameters selected = savedSetsListView.getSelectionModel().getSelectedItem();
+        
+        if(selected == null){
+            System.out.println("Nema odabira");
+            return;
+        }
+        
+        JuliaSetDAO.delete(selected.getId());
+        savedSets.setAll(JuliaSetDAO.selectAll());
+        });
+        
+       
 
     // Tekst koji ispisuje definiciju skupa
         setDefinitionText = new Text("Z\u2099\u208A\u2081 = Z\u2099² + " + realTextField.getText() + " + " + imaginaryTextField.getText() + "i");
@@ -77,7 +156,10 @@ public class ControlPanel extends VBox {
             new Separator(),
             constantTextField,
             calculateSetButton,
-            canvas
+            new Separator(),
+            saveButton,
+            savedSetsListView,
+            deleteButton
         );
     }
 

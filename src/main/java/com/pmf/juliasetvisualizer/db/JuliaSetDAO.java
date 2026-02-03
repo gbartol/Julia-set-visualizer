@@ -78,6 +78,7 @@ public class JuliaSetDAO {
 
             while (rs.next()) {
                 list.add(new JuliaSetParameters(
+                        rs.getInt("id"),
                         rs.getDouble("center_x"),
                         rs.getDouble("center_y"),
                         rs.getDouble("zoom"),

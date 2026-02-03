@@ -65,4 +65,8 @@ public class JuliaSetCanvas extends Canvas {
     public void setCalculateSetController(CalculateSetController calculateSetController) {
         this.calculateSetController = calculateSetController;
     }
+    
+    public JuliaSetParameters getJuliaSetParameters(){
+        return juliaSetParameters;
+    }
 }
