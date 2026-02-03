@@ -17,6 +17,7 @@ import javafx.scene.control.ListView;
 public class ControlPanel extends VBox {
 
     private static Slider maxIterationsSlider;
+    private static Slider colorSlider;
     public static TextField realTextField;
     public static TextField imaginaryTextField;
     private static Text setDefinitionText;
@@ -56,7 +57,20 @@ public class ControlPanel extends VBox {
         );
         maxIterationsText.setStyle("-fx-font-size: 18px;");
 
+
+
         VBox maxIterations = new VBox(maxIterationsLabel, maxIterationsSlider, maxIterationsText);
+    //Label za odabir boja
+        Label colorsLabel = new Label("Boje:");
+        colorsLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 16px;");
+        colorSlider= new Slider(0,1,100);
+        Text colorText = new Text();
+        colorText.textProperty().bind(
+                colorSlider.valueProperty().asString("%.2f") //ovo sluzi da broj u tekstu prati slider
+        );
+
+        colorText.setStyle("-fx-font-size: 18px;");
+        VBox colors = new VBox(colorsLabel,colorSlider,colorText);
 
     // Label za upis konstante
         Label constantLabel = new Label("Konstanta:");
@@ -150,6 +164,7 @@ public class ControlPanel extends VBox {
 
         getChildren().addAll(
             maxIterations,
+            colors,
             new Separator(),
             constantTextField,
             calculateSetButton,
@@ -175,6 +190,7 @@ public class ControlPanel extends VBox {
     public static Slider getMaxIterationsSlider(){
         return maxIterationsSlider;
     }
+    public static Slider getColorSlider(){return colorSlider;}
 
     public ProgressBar getProgressBar() {
         return progressBar;

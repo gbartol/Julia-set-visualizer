@@ -11,17 +11,19 @@ public class JuliaSetParameters {
     private double cReal;
     private double cImaginary;
     private int maxIterations;
+    private double colorValue;
 
-    public JuliaSetParameters(double centerX, double centerY, double zoom, double cReal, double cImaginary, int maxIterations) {
+    public JuliaSetParameters(double centerX, double centerY, double zoom, double cReal, double cImaginary, int maxIterations,double colorValue) {
         this.centerX = centerX;
         this.centerY = centerY;
         this.zoom = zoom;
         this.cReal = cReal;
         this.cImaginary = cImaginary;
         this.maxIterations = maxIterations;
+        this.colorValue=colorValue;
     }
     
-    public JuliaSetParameters(int id, double centerX, double centerY, double zoom, double cReal, double cImaginary, int maxIterations) {
+    public JuliaSetParameters(int id, double centerX, double centerY, double zoom, double cReal, double cImaginary, int maxIterations,double colorValue) {
         this.id = id;
         this.centerX = centerX;
         this.centerY = centerY;
@@ -69,6 +71,9 @@ public class JuliaSetParameters {
     public int getMaxIterations() {
         return maxIterations;
     }
+
+    public double getColorValue(){return colorValue;}
+
     
     @Override
     public String toString(){

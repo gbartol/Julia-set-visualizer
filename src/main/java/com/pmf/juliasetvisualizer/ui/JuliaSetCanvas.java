@@ -47,7 +47,8 @@ public class JuliaSetCanvas extends Canvas {
                     juliaSetParameters.getZoom() * zoomFactor,
                     juliaSetParameters.getcReal(),
                     juliaSetParameters.getcImaginary(),
-                    juliaSetParameters.getMaxIterations()
+                    juliaSetParameters.getMaxIterations(),
+                    juliaSetParameters.getColorValue()
             );
 
             this.juliaSetParameters = newParameters;

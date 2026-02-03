@@ -29,12 +29,14 @@ public class CalculateSetController implements EventHandler<ActionEvent> {
     private JuliaSetParameters juliaSetParameters;
     private long vrijeme;
     private int[][] buffer;
+    private double colorValue;
 
     public CalculateSetController(JuliaSetCanvas canvas, JuliaSetParameters juliaSetParameters) {
         this.juliaSetParameters = juliaSetParameters;
         this.real = juliaSetParameters.getcReal();
         this.imaginary = juliaSetParameters.getcImaginary();
         this.maxIter = juliaSetParameters.getMaxIterations();
+        this.colorValue=juliaSetParameters.getColorValue();
         this.canvas=canvas;
         canvasWidth = (int) canvas.getWidth();
         canvasHeight = (int) canvas.getHeight();
@@ -60,6 +62,7 @@ public class CalculateSetController implements EventHandler<ActionEvent> {
         this.real = juliaSetParameters.getcReal();
         this.imaginary = juliaSetParameters.getcImaginary();
         this.maxIter = juliaSetParameters.getMaxIterations();
+        this.colorValue=juliaSetParameters.getColorValue();
 
         Task calculateTask = new Task<Void>() {
             @Override
@@ -152,7 +155,7 @@ public class CalculateSetController implements EventHandler<ActionEvent> {
                     pixwrite.setColor(x, y, Color.BLACK);
                 else
                     //hsb = hue, saturation, brightness. hue je 360*t za 0<=t<=1
-                    pixwrite.setColor(x, y, Color.hsb(360 * ((double) iteracija / maxIter), 1.0, 1.0));
+                    pixwrite.setColor(x, y, Color.hsb(360 * (makeColor((double) iteracija, maxIter,colorValue)), 1.0, 1.0));
             }
         }
     }
@@ -163,5 +166,17 @@ public class CalculateSetController implements EventHandler<ActionEvent> {
 
     private void setBuffer(int[][] buffer) {
         this.buffer = buffer;
+    }
+
+    private double makeColor(double iteracija,int maxIter,double colorValue){
+        double newColor;
+        if((iteracija/maxIter)+colorValue>1){
+            newColor=(iteracija/maxIter)+colorValue-1;
+            return newColor;
+        }
+        else{
+            newColor =(iteracija/maxIter)+colorValue;
+            return newColor;
+        }
     }
 }

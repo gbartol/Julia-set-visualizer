@@ -54,7 +54,7 @@ public class CalculateSetButton extends Button {
             JuliaSetParameters newParameters = new JuliaSetParameters(
                     0.0, 0.0, 1.0,
                     Double.parseDouble(ControlPanel.realTextField.getText()), Double.parseDouble(ControlPanel.imaginaryTextField.getText()),
-                    maxIter);
+                    maxIter,ControlPanel.getColorSlider().getValue());
             canvas.setJuliaSetParameters(newParameters);
             calculateSetController.calculate(newParameters);
         });

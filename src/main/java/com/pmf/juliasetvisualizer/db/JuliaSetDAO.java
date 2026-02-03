@@ -23,7 +23,9 @@ public class JuliaSetDAO {
             "zoom REAL NOT NULL," +
             "max_iterations INTEGER NOT NULL," +
             "render_time_ms INTEGER," +
+            "color_value REAL NOT NULL" +
             "created_at TEXT DEFAULT CURRENT_TIMESTAMP" +
+
             ");";
 
     // init
@@ -84,7 +86,8 @@ public class JuliaSetDAO {
                         rs.getDouble("zoom"),
                         rs.getDouble("c_real"),
                         rs.getDouble("c_imaginary"),
-                        rs.getInt("max_iterations")
+                        rs.getInt("max_iterations"),
+                        rs.getDouble("color_value")
                 ));
             }
 

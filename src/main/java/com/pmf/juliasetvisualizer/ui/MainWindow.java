@@ -16,7 +16,7 @@ import java.io.IOException;
 
 public class MainWindow extends Application {
     private JuliaSetCanvas juliaSetCanvas = new JuliaSetCanvas(500, 500);
-    private JuliaSetParameters defaultParameters = new JuliaSetParameters(0,0,1,-0.576, -1, 500);
+    private JuliaSetParameters defaultParameters = new JuliaSetParameters(0,0,1,-0.576, -1, 500,0);
     private CalculateSetController calculateSetController = new CalculateSetController(juliaSetCanvas, defaultParameters);
     private ProgressBar progressBar = new ProgressBar();
     private ControlPanel controlPanel = new ControlPanel(juliaSetCanvas, calculateSetController, progressBar);
