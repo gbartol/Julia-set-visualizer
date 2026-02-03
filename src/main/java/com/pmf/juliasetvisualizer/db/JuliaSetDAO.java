@@ -46,8 +46,8 @@ public class JuliaSetDAO {
     //Create / insert
     public static void save(JuliaSetParameters p, long renderTime){
         String sql = "INSERT INTO julia_set " +
-                "(c_real, c_imaginary, center_x, center_y, zoom, max_iterations, render_time_ms) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?)";
+                "(c_real, c_imaginary, center_x, center_y, zoom, max_iterations, render_time_ms,color_value) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?,?)";
         
          try (Connection conn = DriverManager.getConnection(URL);
             PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -59,6 +59,7 @@ public class JuliaSetDAO {
                 pstmt.setDouble(5, p.getZoom());
                 pstmt.setInt(6, p.getMaxIterations());
                 pstmt.setLong(7, renderTime);
+                pstmt.setDouble(8, p.getColorValue());
 
                 pstmt.executeUpdate();
 
@@ -123,6 +124,7 @@ public class JuliaSetDAO {
                 "zoom = ?, " +
                 "max_iterations = ?, " +
                 "render_time_ms = ? " +
+                "color_value = ? " +
                 "WHERE id = ?";
 
         try (Connection conn = getConnection();
@@ -135,7 +137,8 @@ public class JuliaSetDAO {
             pstmt.setDouble(5, p.getZoom());
             pstmt.setInt(6, p.getMaxIterations());
             pstmt.setLong(7, renderTime);
-            pstmt.setInt(8, id);
+            pstmt.setDouble(8, p.getColorValue());
+            pstmt.setInt(9, id);
 
             pstmt.executeUpdate();
 
