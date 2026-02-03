@@ -14,8 +14,11 @@ import static com.pmf.juliasetvisualizer.ui.ControlPanel.realTextField;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import javafx.application.Platform;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.paint.Color;
 
@@ -26,9 +29,11 @@ public class CalculateSetController implements EventHandler<ActionEvent> {
     public JuliaSetCanvas canvas;
     private int canvasWidth;
     private int canvasHeight;
+    private int totalPixels;
     private JuliaSetParameters juliaSetParameters;
     private long vrijeme;
     private int[][] buffer;
+    private ProgressBar progressBar;
 
     public CalculateSetController(JuliaSetCanvas canvas, JuliaSetParameters juliaSetParameters) {
         this.juliaSetParameters = juliaSetParameters;
@@ -36,8 +41,9 @@ public class CalculateSetController implements EventHandler<ActionEvent> {
         this.imaginary = juliaSetParameters.getcImaginary();
         this.maxIter = juliaSetParameters.getMaxIterations();
         this.canvas=canvas;
-        canvasWidth = (int) canvas.getWidth();
-        canvasHeight = (int) canvas.getHeight();
+        this.canvasWidth = (int) canvas.getWidth();
+        this.canvasHeight = (int) canvas.getHeight();
+        this.totalPixels = canvasWidth * canvasHeight;
         if(canvas==null){
             System.out.println("canvas je null u Controlleru");
         }
@@ -69,22 +75,29 @@ public class CalculateSetController implements EventHandler<ActionEvent> {
                 // U buffer će svaka dretva spremati rezultat. on će se ispisati tek nakon što sve dretve završe
                 int[][] buffer = new int[canvasWidth][canvasHeight];
 
+                //za progress bar
+                AtomicInteger progress = new AtomicInteger(0);
+
                 //Upali 4 threada i daj im zadatke
                 ExecutorService executor = Executors.newFixedThreadPool(4);
 
-                executor.submit(new JuliaSetCalculator(canvas, 1, buffer, real, imaginary, maxIter, juliaSetParameters));
-                executor.submit(new JuliaSetCalculator(canvas, 2, buffer, real, imaginary, maxIter, juliaSetParameters));
-                executor.submit(new JuliaSetCalculator(canvas, 3, buffer, real, imaginary, maxIter, juliaSetParameters));
-                executor.submit(new JuliaSetCalculator(canvas, 4, buffer, real, imaginary, maxIter, juliaSetParameters));
+                //onda jos saljemo progress svakom threadu i one ga updateaju
+                executor.submit(new JuliaSetCalculator(canvas, 1, buffer, real, imaginary, maxIter, juliaSetParameters, progress));
+                executor.submit(new JuliaSetCalculator(canvas, 2, buffer, real, imaginary, maxIter, juliaSetParameters, progress));
+                executor.submit(new JuliaSetCalculator(canvas, 3, buffer, real, imaginary, maxIter, juliaSetParameters, progress));
+                executor.submit(new JuliaSetCalculator(canvas, 4, buffer, real, imaginary, maxIter, juliaSetParameters, progress));
 
                 //kill the executor
                 executor.shutdown();
-                try {
-                    executor.awaitTermination(60, TimeUnit.SECONDS);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+
+                while(!executor.isTerminated()) {
+                    if(executor.awaitTermination(50, TimeUnit.MILLISECONDS))
+                        break;
+
+                    updateProgress(progress.get(), totalPixels);
                 }
 
+                updateProgress(totalPixels, totalPixels);
                 long endTime = System.currentTimeMillis();
                 setVrijeme(startTime, endTime);
 
@@ -96,15 +109,28 @@ public class CalculateSetController implements EventHandler<ActionEvent> {
             @Override
             protected void succeeded() {
                 super.succeeded();
+                progressBar.progressProperty().unbind();
                 draw(buffer);
             }
 
             @Override
             protected void failed() {
                 super.failed();
+                progressBar.progressProperty().unbind();
                 System.out.println("Thread je failao");
             }
+
+            @Override
+            protected void cancelled() {
+                super.cancelled();
+                progressBar.progressProperty().unbind();
+                System.out.println("Thread je otkazan");
+            }
         };
+
+        progressBar.progressProperty().unbind();
+        progressBar.setProgress(0);
+        progressBar.progressProperty().bind(calculateTask.progressProperty());
 
         new Thread(calculateTask).start();
     }
@@ -163,5 +189,9 @@ public class CalculateSetController implements EventHandler<ActionEvent> {
 
     private void setBuffer(int[][] buffer) {
         this.buffer = buffer;
+    }
+
+    public void setProgressBar(ProgressBar progressBar) {
+        this.progressBar = progressBar;
     }
 }

@@ -5,6 +5,8 @@ import com.pmf.juliasetvisualizer.ui.JuliaSetCanvas;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.paint.Color;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class JuliaSetCalculator implements Runnable {
 
     private int quadrant;
@@ -16,22 +18,23 @@ public class JuliaSetCalculator implements Runnable {
     private JuliaSetParameters juliaSetParameters;
     private int canvasWidth;
     private int canvasHeight;
+    private AtomicInteger progress;
 
     static {
         System.loadLibrary("calculator");
     }
 
-    public JuliaSetCalculator(JuliaSetCanvas canvas,int quadrant, int[][] buffer, double cReal, double cImaginary, int maxIter, JuliaSetParameters juliaSetParameters) {
+    public JuliaSetCalculator(JuliaSetCanvas canvas,int quadrant, int[][] buffer, double cReal, double cImaginary, int maxIter, JuliaSetParameters juliaSetParameters, AtomicInteger progress) {
         this.juliaSetParameters = juliaSetParameters;
-
         this.quadrant = quadrant;
         this.buffer = buffer;
         this.cReal = cReal;
         this.cImaginary = cImaginary;
         this.maxIter = maxIter;
         this.canvas =canvas;
-        canvasWidth = (int) canvas.getWidth();
-        canvasHeight = (int) canvas.getHeight();
+        this.canvasWidth = (int) canvas.getWidth();
+        this.canvasHeight = (int) canvas.getHeight();
+        this.progress = progress;
         if(this.canvas ==null){
             System.out.println("canvas je null u Calculatoru");
         }
@@ -91,11 +94,11 @@ public class JuliaSetCalculator implements Runnable {
             {
                 double z0Real = juliaSetParameters.mapPixelToReal(i, canvasWidth);
                 double z0Imaginary = juliaSetParameters.mapPixelToImaginary(j, canvasHeight);
-                //double z0Real = juliaSetParameters.mapToReal(i);
-                //double z0Imaginary = juliaSetParameters.mapToImaginary(j);
-                
+
                 int iteracija = calculate(maxIter, cReal, cImaginary, z0Real, z0Imaginary);
                 buffer[i][j]  =iteracija;
+
+                progress.incrementAndGet();
             }
         }
 

@@ -33,6 +33,7 @@ public class ControlPanel extends VBox {
         setMinWidth(250);
         this.calculateSetController = calculateSetController;
         this.progressBar = progressBar;
+        this.calculateSetController.setProgressBar(progressBar);
         this.canvas=canvas;
         if(this.canvas==null){
             System.out.println("canvas je null u ControllPanelu");
@@ -156,7 +157,9 @@ public class ControlPanel extends VBox {
             new Separator(),
             saveButton,
             savedSetsListView,
-            deleteButton
+            deleteButton,
+            new Separator(),
+            progressBar
         );
     }
 
