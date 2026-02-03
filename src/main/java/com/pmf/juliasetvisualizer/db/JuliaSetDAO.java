@@ -46,7 +46,7 @@ public class JuliaSetDAO {
     //Create / insert
     public static void save(JuliaSetParameters p, long renderTime){
         String sql = "INSERT INTO julia_set " +
-                "(c_real, c_imaginary, center_x, center_y, zoom, max_iterations, render_time_ms,color_value) " +
+                "(c_real, c_imaginary, center_x, center_y, zoom, max_iterations, render_time_ms , color_value) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?,?)";
         
          try (Connection conn = DriverManager.getConnection(URL);
