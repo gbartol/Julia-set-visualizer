@@ -23,7 +23,7 @@ public class JuliaSetDAO {
             "zoom REAL NOT NULL," +
             "max_iterations INTEGER NOT NULL," +
             "render_time_ms INTEGER," +
-            "color_value REAL NOT NULL" +
+            "color_value REAL NOT NULL," +
             "created_at TEXT DEFAULT CURRENT_TIMESTAMP" +
 
             ");";
