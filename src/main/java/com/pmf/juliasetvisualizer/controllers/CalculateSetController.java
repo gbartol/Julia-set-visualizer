@@ -18,6 +18,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import javafx.application.Platform;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.paint.Color;
@@ -113,6 +114,7 @@ public class CalculateSetController implements EventHandler<ActionEvent> {
             protected void succeeded() {
                 super.succeeded();
                 draw(buffer);
+                ControlPanel.getRenderTimeLabel().setText(vrijeme + " ms");
             }
 
             @Override
@@ -186,7 +188,7 @@ public class CalculateSetController implements EventHandler<ActionEvent> {
     }
 
     private void setVrijeme(long start, long end) {
-        this.vrijeme = start-end;
+        this.vrijeme = (end-start);
     }
 
     private void setBuffer(int[][] buffer) {

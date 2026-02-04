@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.collections.FXCollections;
@@ -34,6 +35,7 @@ public class ControlPanel extends VBox {
     private CalculateSetController calculateSetController;
     private ListView<JuliaSetParameters> savedSetsListView;
     private ObservableList<JuliaSetParameters> savedSets;
+    private static Label renderTimeLabel;
     private ProgressBar progressBar;
 
     public ControlPanel(JuliaSetCanvas canvas, CalculateSetController calculateSetController, ProgressBar progressBar) {
@@ -93,7 +95,7 @@ public class ControlPanel extends VBox {
         calculateSetButton = new CalculateSetButton(canvas, calculateSetController, "Calculate Julia set!");
         
     //Button za spremanje u bazu
-        Button saveButton = new Button("Spremi Julia Set");
+        Button saveButton = new Button("Save");
         saveButton.setStyle("-fx-font-size: 14px;");
         
         saveButton.setOnAction(e -> {
@@ -117,7 +119,7 @@ public class ControlPanel extends VBox {
         
         //Button za export
         
-        Button exportBtn = new Button("Export JPG");
+        Button exportBtn = new Button("Export as Image");
         
         exportBtn.setOnAction((ActionEvent e) -> {
                 FileChooser fileChooser = new FileChooser();
@@ -187,7 +189,7 @@ public class ControlPanel extends VBox {
             }
         });
         
-        Button deleteButton = new Button("Obriši odabrani zoom");
+        Button deleteButton = new Button("Delete");
         deleteButton.setStyle("-fx-font-size: 14px;");
         
         deleteButton.setOnAction(e -> {
@@ -202,8 +204,9 @@ public class ControlPanel extends VBox {
         JuliaSetDAO.delete(selected.getId());
         savedSets.setAll(JuliaSetDAO.selectAll());
         });
-        
-       
+
+        // Label za vrijeme izvrsavanja
+       renderTimeLabel = new Label("");
 
     // Tekst koji ispisuje definiciju skupa
         setDefinitionText = new Text("Z\u2099\u208A\u2081 = Z\u2099² + " + realTextField.getText() + " + " + imaginaryTextField.getText() + "i");
@@ -222,12 +225,13 @@ public class ControlPanel extends VBox {
             constantTextField,
             calculateSetButton,
             new Separator(),
-            saveButton,
             savedSetsListView,
-            deleteButton,
+            new HBox(deleteButton, saveButton),
             new Separator(),
-            exportBtn,
-            progressBar
+            renderTimeLabel,
+            progressBar,
+            new Separator(),
+            exportBtn
         );
     }
 
@@ -250,5 +254,9 @@ public class ControlPanel extends VBox {
 
     public ProgressBar getProgressBar() {
         return progressBar;
+    }
+
+    public static Label getRenderTimeLabel() {
+        return renderTimeLabel;
     }
 }
