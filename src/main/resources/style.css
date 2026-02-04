@@ -1,0 +1,28 @@
+.control-panel {
+    -fx-background-color: #2b2b2b;
+    -fx-padding: 15;
+}
+
+.section-box {
+    -fx-background-color: #3c3f41;
+    -fx-background-radius: 10;
+    -fx-padding: 15;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0, 0, 2);
+}
+
+.button {
+    -fx-background-color: #4b6eaf;
+    -fx-text-fill: white;
+    -fx-background-radius: 5;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: #5b7ebf;
+}
+
+.calculate-button {
+    -fx-background-color: #2d8a4e;
+    -fx-font-size: 16px;
+}

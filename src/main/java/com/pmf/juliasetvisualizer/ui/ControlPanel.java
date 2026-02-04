@@ -9,6 +9,8 @@ import java.io.IOException;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.collections.FXCollections;
@@ -42,6 +44,8 @@ public class ControlPanel extends VBox {
         super(10);
         setPadding(new Insets(10));
         setMinWidth(250);
+        setMaxWidth(250);
+        setPrefWidth(250);
         this.calculateSetController = calculateSetController;
         this.progressBar = progressBar;
         this.calculateSetController.setProgressBar(progressBar);
@@ -93,6 +97,7 @@ public class ControlPanel extends VBox {
 
     // Button za izračun
         calculateSetButton = new CalculateSetButton(canvas, calculateSetController, "Calculate Julia set!");
+        calculateSetButton.setMaxWidth(Double.MAX_VALUE);
         
     //Button za spremanje u bazu
         Button saveButton = new Button("Save");
@@ -120,6 +125,7 @@ public class ControlPanel extends VBox {
         //Button za export
         
         Button exportBtn = new Button("Export as Image");
+        exportBtn.setMaxWidth(Double.MAX_VALUE);
         
         exportBtn.setOnAction((ActionEvent e) -> {
                 FileChooser fileChooser = new FileChooser();
@@ -205,12 +211,20 @@ public class ControlPanel extends VBox {
         savedSets.setAll(JuliaSetDAO.selectAll());
         });
 
+        HBox dbButtons = new HBox();
+        dbButtons.setPadding(new Insets(5,0,5,0));
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+        dbButtons.getChildren().addAll(deleteButton, spacer, saveButton);
+
         // Label za vrijeme izvrsavanja
        renderTimeLabel = new Label("");
+       progressBar.setMaxWidth(Double.MAX_VALUE);
 
     // Tekst koji ispisuje definiciju skupa
         setDefinitionText = new Text("Z\u2099\u208A\u2081 = Z\u2099² + " + realTextField.getText() + " + " + imaginaryTextField.getText() + "i");
         setDefinitionText.setStyle("-fx-font-size: 18px;");
+        setDefinitionText.setWrappingWidth(230);
 
         // listeneri za upis teksta u text box, pozivaju funkciju dole
         realTextField.textProperty().addListener(observable -> updateSetDefinitionText());
@@ -226,7 +240,7 @@ public class ControlPanel extends VBox {
             calculateSetButton,
             new Separator(),
             savedSetsListView,
-            new HBox(deleteButton, saveButton),
+            dbButtons,
             new Separator(),
             renderTimeLabel,
             progressBar,

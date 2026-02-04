@@ -29,7 +29,8 @@ public class MainWindow extends Application {
         borderPane.setLeft(controlPanel);
 
         Scene scene = new Scene(borderPane, 500, 500);
-        stage.setTitle("Hello!");
+        scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
+        stage.setTitle("Julia Set Visualizer");
         stage.setScene(scene);
         stage.show();
     }
