@@ -26,4 +26,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: JuliaSetVisualizer
-        path: target/*.jar
+        path: |
+          target/*.jar
+          target/*.so
+          target/*.dll
